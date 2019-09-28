@@ -15,7 +15,9 @@ using namespace gui;
 
 #include "Player.h"
 #include "Hud.h"
+#include "GameObject.h"
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -83,7 +85,12 @@ int main()
 
 	camera->setPosition(vector3df(30, 80, 30));
 
-	IAnimatedMesh* sydney = smgr->getMesh("media/sydney.md2");
+	vector<GameObject> gameObjects;
+
+	GameObject temp = GameObject("media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 0, false, true);
+
+	
+	IAnimatedMesh* sydney = smgr->getMesh(temp.getMesh().c_str());
 	if (!sydney)
 	{
 		device->drop();
@@ -274,7 +281,7 @@ int main()
 	 IMeshSceneNode * doorContainer = smgr->addMeshSceneNode(door, 0, IDFlag_IsPickable);
 	 IMeshSceneNode * tableContainer = smgr->addMeshSceneNode(table, 0, IDFlag_IsPickable);
 	 IMeshSceneNode * tableContainer2 = smgr->addMeshSceneNode(table, 0, IDFlag_IsPickable);
-	 IAnimatedMeshSceneNode* sydneyContainer = smgr->addAnimatedMeshSceneNode(sydney, 0, IDFlag_IsPickable);
+	 IAnimatedMeshSceneNode* sydneyContainer = smgr->addAnimatedMeshSceneNode(sydney, 0, temp.getPickable());
 	 
 	 IMeshSceneNode * projectorContainer = smgr->addMeshSceneNode(projector);
 	 IMeshSceneNode * pscreenContainer = smgr->addMeshSceneNode(pscreen, 0, IDFlag_IsPickable);
@@ -384,6 +391,7 @@ int main()
 	 IMeshSceneNode * cupboardContainer5 = smgr->addMeshSceneNode(cupboard, 0, IDFlag_IsPickable);
 	 IMeshSceneNode * cupboardContainer6 = smgr->addMeshSceneNode(cupboard, 0, IDFlag_IsPickable);
 	 IMeshSceneNode * lecturnContainer = smgr->addMeshSceneNode(lecturn, 0, IDFlag_IsPickable);
+
 	 if (ceilingContainer)
 	 {
 		 ceilingContainer->setMaterialFlag(EMF_LIGHTING, false);
@@ -632,9 +640,9 @@ int main()
 	{
 		sydneyContainer->setMaterialFlag(EMF_LIGHTING, false);
 		sydneyContainer->setMD2Animation(scene::EMAT_STAND);
-		sydneyContainer->setMaterialTexture(0, driver->getTexture("media/sydney.bmp"));
-		sydneyContainer->setScale(vector3df(3.0, 3.0, 3.0));
-		sydneyContainer->setPosition(vector3df(-100, 0, -100));
+		sydneyContainer->setMaterialTexture(0, driver->getTexture(temp.getTex().c_str()));
+		sydneyContainer->setScale(temp.getScaleVector());
+		sydneyContainer->setPosition(temp.getPosVector());
 
 		scene::ITriangleSelector* selector = smgr->createTriangleSelector(sydney, sydneyContainer);
 		sydneyContainer->setTriangleSelector(selector);
