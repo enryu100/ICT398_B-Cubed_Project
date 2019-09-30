@@ -87,10 +87,10 @@ int main()
 
 	vector<GameObject> gameObjects;
 
-	GameObject temp = GameObject("media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 0, false, true);
+	gameObjects.push_back(GameObject("media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 1, 0, false, true));
 
 	
-	IAnimatedMesh* sydney = smgr->getMesh(temp.getMesh().c_str());
+	IAnimatedMesh* sydney = smgr->getMesh(gameObjects[0].getMesh().c_str());
 	if (!sydney)
 	{
 		device->drop();
@@ -281,7 +281,7 @@ int main()
 	 IMeshSceneNode * doorContainer = smgr->addMeshSceneNode(door, 0, IDFlag_IsPickable);
 	 IMeshSceneNode * tableContainer = smgr->addMeshSceneNode(table, 0, IDFlag_IsPickable);
 	 IMeshSceneNode * tableContainer2 = smgr->addMeshSceneNode(table, 0, IDFlag_IsPickable);
-	 IAnimatedMeshSceneNode* sydneyContainer = smgr->addAnimatedMeshSceneNode(sydney, 0, temp.getPickable());
+	 IAnimatedMeshSceneNode* sydneyContainer = smgr->addAnimatedMeshSceneNode(sydney, 0, gameObjects[0].getPickable());
 	 
 	 IMeshSceneNode * projectorContainer = smgr->addMeshSceneNode(projector);
 	 IMeshSceneNode * pscreenContainer = smgr->addMeshSceneNode(pscreen, 0, IDFlag_IsPickable);
@@ -640,9 +640,9 @@ int main()
 	{
 		sydneyContainer->setMaterialFlag(EMF_LIGHTING, false);
 		sydneyContainer->setMD2Animation(scene::EMAT_STAND);
-		sydneyContainer->setMaterialTexture(0, driver->getTexture(temp.getTex().c_str()));
-		sydneyContainer->setScale(temp.getScaleVector());
-		sydneyContainer->setPosition(temp.getPosVector());
+		sydneyContainer->setMaterialTexture(0, driver->getTexture(gameObjects[0].getTex().c_str()));
+		sydneyContainer->setScale(gameObjects[0].getScaleVector());
+		sydneyContainer->setPosition(gameObjects[0].getPosVector());
 
 		scene::ITriangleSelector* selector = smgr->createTriangleSelector(sydney, sydneyContainer);
 		sydneyContainer->setTriangleSelector(selector);

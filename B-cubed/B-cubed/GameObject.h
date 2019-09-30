@@ -94,6 +94,13 @@ class GameObject {
 		*/
 
 		/**
+		* \var mass
+		* \brief mass of object
+		* \details variable containing mass of object for use with physics
+		*/
+		float mass;
+
+		/**
 		* \var isPickable
 		* \brief for colliders
 		* \details variable denoting whether the object is "pickable" by colliders, and is thus able to be collided against.
@@ -118,7 +125,7 @@ class GameObject {
 		 * \details overloaded constructor which sets all variables
 		 * \author Brandon Jin Yang Lim
 		 ***********************************************/
-		GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, int pick, bool phys, bool interact);
+		GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float m, int pick, bool phys, bool interact);
 
 		/**
 		* \addtogroup getFunc
@@ -137,6 +144,7 @@ class GameObject {
 		float getScaleX() { return scaleX; }
 		float getScaleY() { return scaleY; }
 		float getScaleZ() { return scaleZ; }
+		float getMass() { return mass; }
 		int getPickable() { return isPickable; }
 		bool getPhysics() { return hasPhysics; }
 		bool getInteractible() { return interactible; }
@@ -163,6 +171,7 @@ class GameObject {
 		void setScaleX(float x);
 		void setScaleY(float y);
 		void setScaleZ(float z);
+		void setMass(float m);
 		void setPickable(int flag);
 		void setPhysics(bool phys);
 		void setInteractible(bool interact);

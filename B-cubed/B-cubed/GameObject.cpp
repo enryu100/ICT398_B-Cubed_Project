@@ -45,6 +45,10 @@ void GameObject::setScaleZ(float z) {
 	scaleZ = z;
 }
 
+void GameObject::setMass(float m) {
+	mass = m;
+}
+
 void GameObject::setPickable(int flag) {
 	isPickable = flag;
 }
@@ -57,7 +61,7 @@ void GameObject::setInteractible(bool interact) {
 	interactible = interact;
 }
 
-GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, int pick, bool phys, bool interact) {
+GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float m, int pick, bool phys, bool interact) {
 	setMesh(mPath);
 	setTex(tPath);
 	setPosX(x);
@@ -69,6 +73,7 @@ GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, f
 	setScaleX(sx);
 	setScaleY(sy);
 	setScaleZ(sz);
+	setMass(m);
 	setPickable(pick);
 	setPhysics(phys);
 	setInteractible(interact);
