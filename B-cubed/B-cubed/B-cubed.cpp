@@ -87,7 +87,7 @@ int main()
 
 	vector<GameObject*> gameObjects;
 
-	gameObjects.push_back(new GameObject("media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 1, 0, false, true));
+	gameObjects.push_back(new GameObject("media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 0, false, true));
 	
 	IAnimatedMesh* sydney = smgr->getMesh(gameObjects[0]->getMesh().c_str());
 	if (!sydney)

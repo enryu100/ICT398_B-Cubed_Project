@@ -92,6 +92,13 @@ class GameObject {
 		/**
 		* @}
 		*/
+		
+		/**
+		* \var ptm
+		* \brief planar texture mapping
+		* \details variable containing the planar texture mapping information
+		*/
+		float ptm;
 
 		/**
 		* \var mass
@@ -125,7 +132,7 @@ class GameObject {
 		 * \details overloaded constructor which sets all variables
 		 * \author Brandon Jin Yang Lim
 		 ***********************************************/
-		GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float m, int pick, bool phys, bool interact);
+		GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, float m, int pick, bool phys, bool interact);
 
 		/**
 		* \addtogroup getFunc
@@ -144,6 +151,7 @@ class GameObject {
 		float getScaleX() { return scaleX; }
 		float getScaleY() { return scaleY; }
 		float getScaleZ() { return scaleZ; }
+		float getPTM() { return ptm; }
 		float getMass() { return mass; }
 		int getPickable() { return isPickable; }
 		bool getPhysics() { return hasPhysics; }
@@ -171,6 +179,7 @@ class GameObject {
 		void setScaleX(float x);
 		void setScaleY(float y);
 		void setScaleZ(float z);
+		void setPTM(float p);
 		void setMass(float m);
 		void setPickable(int flag);
 		void setPhysics(bool phys);
