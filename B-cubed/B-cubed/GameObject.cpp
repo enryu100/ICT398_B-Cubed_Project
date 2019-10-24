@@ -151,3 +151,36 @@ vector3df GameObject::getLineVel() {
 vector3df GameObject::getRotVel() {
 	return vector3df(rotvX, rotvY, rotvZ);
 }
+
+void GameObject::initEmotions() {
+	emotions = EmotionEngine();
+}
+
+std::string GameObject::getEmotions() {
+	//initialise empty string
+	std::string emote = "";
+
+	//add lines for each emotion axis
+	emote = "Joy-Sadness: " + std::to_string(emotions.getJoySad()) + "\n";
+	emote += "Trust-Disgust: " + std::to_string(emotions.getTrustDisgust()) + "\n";
+	emote = "Fear-Rage: " + std::to_string(emotions.getFearAnger()) + "\n";
+	emote = "Surprise-Anticipation: " + std::to_string(emotions.getSurpriseAnticipation());
+
+	return emote;
+}
+
+bool GameObject::isHungry(){
+	if(hunger >= 10){
+		return true;
+	} else{
+		return false;
+	}
+}
+
+void GameObject::incHunger(float val){
+	hunger += val * hungerRate
+}
+
+void GameObject::decHunger(float val){
+	hunger -= val * hungerRate
+}

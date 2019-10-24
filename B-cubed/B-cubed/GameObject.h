@@ -1,7 +1,9 @@
 #pragma once
 
+
 #include <string>
 #include <irrlicht.h>
+#include "EmotionEngine.h"
 
 using namespace irr;
 using namespace core;
@@ -172,6 +174,25 @@ class GameObject {
 		* \brief interaction flag for NPCs
 		*/
 		bool interactible;
+
+		/**
+		* \var emotions
+		* \brief emotion management system for NPCs
+		*/
+		EmotionEngine emotions;
+		
+		/**
+		* \var hunger
+		* \brief hunger var for affordances
+		*/
+		float hunger;
+		
+		/**
+		* \var hungerRate
+		* \brief rate of hunger gain
+		*/
+		float hungerRate;
+		
 	public:
 		/********************************************//**
 		 * \fn GameObject
@@ -223,6 +244,8 @@ class GameObject {
 		float getRotVY() { return rotvY; }
 		float getRotVZ() { return rotvZ; }
 		vector3df getRotVel();
+		std::string getEmotions();
+		bool isHungry();
 		/**
 		* @}
 		*/
@@ -260,4 +283,25 @@ class GameObject {
 		* @}
 		*/
 		
+		/********************************************//**
+		 * \fn incHunger
+		 * \brief increases hunger
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		void incHunger(float val);
+		
+		/********************************************//**
+		 * \fn decHunger
+		 * \brief decreases hunger
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		void decHunger(float val);
+		
+		/********************************************//**
+		 * \fn initEmotions
+		 * \brief initialiser for emotion var
+		 * \details Initialises emotion management system for NPCs to starting values
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		void initEmotions();
 };

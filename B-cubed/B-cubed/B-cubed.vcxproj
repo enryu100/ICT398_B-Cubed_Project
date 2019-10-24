@@ -162,11 +162,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="B-cubed.cpp" />
+    <ClCompile Include="EmotionEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EmotionEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Player.h" />
