@@ -94,6 +94,46 @@ class GameObject {
 		*/
 		
 		/**
+		* \addtogroup motionData
+		* \brief linear and rotational velocity
+		* \details the linear and rotational velocity of the object. rotational is around the corresponding axis
+		* @{
+		*/
+		/**
+		* \var velX
+		* \brief X-axis linear velocity
+		*/
+		float velX;
+		/**
+		* \var velY
+		* \brief Y-axis linear velocity
+		*/
+		float velY;
+		/**
+		* \var velZ
+		* \brief Z-axis linear velocity
+		*/
+		float velZ;
+		/**
+		* \var rotvX
+		* \brief rotational velocity about the X-axis
+		*/
+		float rotvX;
+		/**
+		* \var rotvY
+		* \brief rotational velocity about the Y-axis
+		*/
+		float rotvY;
+		/**
+		* \var rotvZ
+		* \brief rotational velocity about the Z-axis
+		*/
+		float rotvZ;
+		/**
+		* @}
+		*/
+		
+		/**
 		* \var ptm
 		* \brief planar texture mapping
 		* \details variable containing the planar texture mapping information
@@ -174,6 +214,15 @@ class GameObject {
 		bool getInteractible() { return interactible; }
 		vector3df getScaleVector();
 		vector3df getPosVector();
+		vector3df getRotVector();
+		float getVelX() { return velX; }
+		float getVelY() { return velY; }
+		float getVelZ() { return velZ; }
+		vector3df getLineVel();
+		float getRotVX() { return rotvX; }
+		float getRotVY() { return rotvY; }
+		float getRotVZ() { return rotvZ; }
+		vector3df getRotVel();
 		/**
 		* @}
 		*/
@@ -201,6 +250,12 @@ class GameObject {
 		void setPickable(int flag);
 		void setPhysics(bool phys);
 		void setInteractible(bool interact);
+		void setVelX(float vx);
+		void setVelY(float vy);
+		void setVelZ(float vz);
+		void setRotVX(float rx);
+		void setRotVY(float ry);
+		void setRotVZ(float rz);
 		/**
 		* @}
 		*/

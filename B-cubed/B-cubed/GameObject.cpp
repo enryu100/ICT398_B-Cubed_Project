@@ -69,6 +69,30 @@ void GameObject::setInteractible(bool interact) {
 	interactible = interact;
 }
 
+void GameObject::setVelX(float vx){
+	velX = vx;
+}
+
+void GameObject::setVelY(float vy){
+	velY = vy;
+}
+
+void GameObject::setVelZ(float vz){
+	velZ = vz;
+}
+
+void GameObject::setRotVX(float rx){
+	rotvX = rx;
+}
+
+void GameObject::setRotVY(float ry){
+	rotvY = ry;
+}
+
+void GameObject::setRotVZ(float rz){
+	rotvZ = rz;
+}
+
 GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, int h, float m, int pick, bool phys, bool interact) {
 	setMesh(mPath);
 	setTex(tPath);
@@ -114,4 +138,16 @@ vector3df GameObject::getScaleVector() {
 
 vector3df GameObject::getPosVector() {
 	return vector3df(posX, posY, posZ);
+}
+
+vector3df GameObject::getRotVector() {
+	return vector3df(rotX, rotY, rotZ);
+}
+
+vector3df GameObject::getLineVel() {
+	return vector3df(velX, velY, velZ);
+}
+
+vector3df GameObject::getRotVel() {
+	return vector3df(rotvX, rotvY, rotvZ);
 }
