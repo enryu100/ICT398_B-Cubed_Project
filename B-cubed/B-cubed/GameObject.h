@@ -99,6 +99,13 @@ class GameObject {
 		* \details variable containing the planar texture mapping information
 		*/
 		float ptm;
+		
+		/**
+		* \var hasAnim
+		* \brief flag for animations
+		* \details variable denoting whether the model has animations
+		*/
+		int hasAnim;
 
 		/**
 		* \var mass
@@ -129,7 +136,15 @@ class GameObject {
 		/********************************************//**
 		 * \fn GameObject
 		 * \brief overloaded constructor
-		 * \details overloaded constructor which sets all variables
+		 * \details overloaded constructor which sets all variables. For models with animations
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, int h, float m, int pick, bool phys, bool interact);
+		
+		/********************************************//**
+		 * \fn GameObject
+		 * \brief overloaded constructor
+		 * \details overloaded constructor which sets variables. for models with no animations
 		 * \author Brandon Jin Yang Lim
 		 ***********************************************/
 		GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, float m, int pick, bool phys, bool interact);
@@ -152,6 +167,7 @@ class GameObject {
 		float getScaleY() { return scaleY; }
 		float getScaleZ() { return scaleZ; }
 		float getPTM() { return ptm; }
+		int getAnim() { return hasAnim; }
 		float getMass() { return mass; }
 		int getPickable() { return isPickable; }
 		bool getPhysics() { return hasPhysics; }
@@ -180,6 +196,7 @@ class GameObject {
 		void setScaleY(float y);
 		void setScaleZ(float z);
 		void setPTM(float p);
+		void setAnim(int h);
 		void setMass(float m);
 		void setPickable(int flag);
 		void setPhysics(bool phys);
