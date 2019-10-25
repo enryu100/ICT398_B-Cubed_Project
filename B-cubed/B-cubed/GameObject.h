@@ -300,8 +300,17 @@ class GameObject {
 		/********************************************//**
 		 * \fn initEmotions
 		 * \brief initialiser for emotion var
-		 * \details Initialises emotion management system for NPCs to starting values
+		 * \details Initialises emotion management system for NPCs to base values
 		 * \author Brandon Jin Yang Lim
 		 ***********************************************/
 		void initEmotions();
+
+
+		/********************************************//**
+		 * \fn initEmotionVals
+		 * \brief second initialiser for emotion var
+		 * \details Initialises emotion management system for NPCs to specified values
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		void initEmotionVals();
 };

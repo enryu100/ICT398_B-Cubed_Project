@@ -178,9 +178,9 @@ bool GameObject::isHungry(){
 }
 
 void GameObject::incHunger(float val){
-	hunger += val * hungerRate
+	hunger += val * hungerRate;
 }
 
 void GameObject::decHunger(float val){
-	hunger -= val * hungerRate
+	hunger -= val * hungerRate;
 }

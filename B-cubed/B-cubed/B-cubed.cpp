@@ -231,6 +231,11 @@ int main()
 			tempContainer->setScale(gameObjects[i]->getScaleVector());
 			tempContainer->setPosition(gameObjects[i]->getPosVector());
 
+			if (gameObjects[i]->getInteractible()) {
+				//object in NPC
+				gameObjects[i]->initEmotions();
+			}
+
 			if(gameObjects[i]->getPickable() != 0){
 				scene::ITriangleSelector* selector = smgr->createTriangleSelector(temp, tempContainer);
 				tempContainer->setTriangleSelector(selector);
