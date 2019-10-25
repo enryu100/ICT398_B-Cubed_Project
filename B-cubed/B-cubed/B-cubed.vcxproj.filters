@@ -44,5 +44,8 @@
     <ClInclude Include="EmotionEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CustomEventReceiver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

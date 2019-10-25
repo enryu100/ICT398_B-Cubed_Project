@@ -2,7 +2,7 @@
 
 
 #include <string>
-#include <irrlicht.h>
+#include "irrlicht.h"
 #include "EmotionEngine.h"
 
 using namespace irr;
@@ -305,12 +305,19 @@ class GameObject {
 		 ***********************************************/
 		void initEmotions();
 
-
 		/********************************************//**
 		 * \fn initEmotionVals
 		 * \brief second initialiser for emotion var
 		 * \details Initialises emotion management system for NPCs to specified values
 		 * \author Brandon Jin Yang Lim
 		 ***********************************************/
-		void initEmotionVals();
+		void initEmotionVals(float js, float td, float fr, float sa, float jm, float sadm, float tm, float dm, float fm, float rm, float surpm, float am, float aov, float dov, float dr, float et);
+
+		/********************************************//**
+		 * \fn changeEmotion
+		 * \brief alters emotion values
+		 * \details Change the value for an emotion on interaction
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		void changeEmotion(float j, float s, float t, float d, float f, float r, float su, float a);
 };

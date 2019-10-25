@@ -156,6 +156,10 @@ void GameObject::initEmotions() {
 	emotions = EmotionEngine();
 }
 
+void GameObject::initEmotionVals(float js, float td, float fr, float sa, float jm, float sadm, float tm, float dm, float fm, float rm, float surpm, float am, float aov, float dov, float dr, float et) {
+	emotions = EmotionEngine(js, td, fr, sa, jm, sadm, tm, dm, fm, rm, surpm, am, aov, dov, dr, et);
+}
+
 std::string GameObject::getEmotions() {
 	//initialise empty string
 	std::string emote = "";
@@ -183,4 +187,15 @@ void GameObject::incHunger(float val){
 
 void GameObject::decHunger(float val){
 	hunger -= val * hungerRate;
+}
+
+void GameObject::changeEmotion(float j, float s, float t, float d, float f, float r, float su, float a) {
+	emotions.addJoy(j);
+	emotions.addSad(s);
+	emotions.addTrust(t);
+	emotions.addDisgust(d);
+	emotions.addFear(f);
+	emotions.addAnger(r);
+	emotions.addSurprise(su);
+	emotions.addAnticipation(a);
 }

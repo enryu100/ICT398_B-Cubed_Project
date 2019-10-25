@@ -1,7 +1,7 @@
 // B-cubed.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <irrlicht.h>
+#include "irrlicht.h"
 #include <iostream>
 using namespace irr;
 using namespace core;
@@ -13,11 +13,12 @@ using namespace gui;
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
+#include <string>
+#include <vector>
 #include "Player.h"
 #include "Hud.h"
 #include "GameObject.h"
-#include <string>
-#include <vector>
+#include "CustomEventReceiver.h"
 
 using namespace std;
 
@@ -40,10 +41,11 @@ enum
 
 int main()
 {
+	CustomEventReceiver receiver;
 	
 	video::E_DRIVER_TYPE driverType;
 	driverType = video::EDT_OPENGL;
-	IrrlichtDevice *device = createDevice(driverType, dimension2d<u32>(1000, 780));
+	IrrlichtDevice *device = createDevice(driverType, dimension2d<u32>(1000, 780), 16, false, false, false, &receiver);
 
 
 	if (!device)
@@ -86,6 +88,7 @@ int main()
 	camera->setPosition(vector3df(30, 80, 30));
 
 	vector<GameObject*> gameObjects;
+	
 
 	//NPC
 	gameObjects.push_back(new GameObject("media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, false, true));
@@ -204,6 +207,8 @@ int main()
 	gameObjects.push_back(new GameObject("media/keyboard.obj", "", -300, -13, 70, 0, 90, 0, 1.5, 0.5, 1.5, 0, 1, 0, false, false));
 	gameObjects.push_back(new GameObject("media/Office_chair_obj/Office_chair.obj", "", -260, -85, 80, 0, 90, 0, 0.1, 0.1, 0.1, 0.003, 1, 1, false, false));
 	
+	//core::map<ISceneNode*, GameObject*> *objectByNode = 0;
+
 	int i = 0;
 	for (i = 0; i < gameObjects.size(); i++){
 		IAnimatedMesh* temp = smgr->getMesh(gameObjects[i]->getMesh().c_str());
@@ -221,6 +226,8 @@ int main()
 		IAnimatedMeshSceneNode* tempContainer = smgr->addAnimatedMeshSceneNode(temp, 0, gameObjects[i]->getPickable());
 		if (tempContainer)
 		{
+			//objectByNode->set(tempContainer, gameObjects[i]);
+
 			tempContainer->setMaterialFlag(EMF_LIGHTING, false);
 			if(gameObjects[i]->getPTM() == 1){
 				tempContainer->setMD2Animation(scene::EMAT_STAND);
@@ -230,10 +237,14 @@ int main()
 			}
 			tempContainer->setScale(gameObjects[i]->getScaleVector());
 			tempContainer->setPosition(gameObjects[i]->getPosVector());
+			tempContainer->setRotation(gameObjects[i]->getRotVector());
 
 			if (gameObjects[i]->getInteractible()) {
 				//object in NPC
 				gameObjects[i]->initEmotions();
+				scene::ITriangleSelector* tempselector = smgr->createTriangleSelector(tempContainer);
+				tempContainer->setTriangleSelector(tempselector);
+				tempselector->drop();
 			}
 
 			if(gameObjects[i]->getPickable() != 0){
@@ -254,6 +265,10 @@ int main()
 
 	device->getCursorControl()->setVisible(false);
 
+	// Remember which scene node is selected
+	scene::ISceneNode* highlightedSceneNode = 0;
+	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
+	GameObject* targetObject = 0;
 	int lastFPS = -1;
 
 	while (device->run())
@@ -262,11 +277,50 @@ int main()
 		{
 			driver->beginScene(true, true, SColor(255, 100, 101, 140));
 
-
-
 			smgr->drawAll();
 			//guienv->drawAll();
 			ThisHud.Update();
+
+			//deselect currently selected
+			if (highlightedSceneNode) {
+				highlightedSceneNode = 0;
+			}
+
+			// All intersections in this example are done with a ray cast out from the camera to
+			// a distance of 1000.  You can easily modify this to check (e.g.) a bullet
+			// trajectory or a sword's position, or create a ray from a mouse click position using
+			// ISceneCollisionManager::getRayFromScreenCoordinates()
+			core::line3d<f32> ray;
+			ray.start = camera->getPosition();
+			ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 1000.0f;
+
+			// Tracks the current intersection point with the level or a mesh
+			core::vector3df intersection;
+			// Used to show with triangle has been hit
+			core::triangle3df hitTriangle;
+
+			scene::ISceneNode * selectedSceneNode = 
+				collMan->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, 0, 0);
+
+			// If the ray hit anything, do stuff
+			if (selectedSceneNode)
+			{
+				highlightedSceneNode = selectedSceneNode;
+
+				//targetObject = (GameObject*)objectByNode->find(highlightedSceneNode);
+
+				////if object exists and is interactible, do stuff
+				//if (targetObject) {
+				//	if (targetObject->getInteractible()) {
+				//		
+				//		//if 'J' key pressed, change joy
+				//		if (receiver.IsKeyDown(KEY_KEY_J)) {
+				//			//increase joy by 5
+				//			targetObject->changeEmotion(5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+				//		}
+				//	}
+				//}
+			}
 
 			driver->endScene();
 
