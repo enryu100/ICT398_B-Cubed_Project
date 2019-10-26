@@ -21,6 +21,9 @@ using namespace gui;
 #include "lua_Script.h"
 #include "CustomEventReceiver.h"
 
+#include "Path.h"
+#include "NPCVehicle.h"
+
 using namespace std;
 
 enum
@@ -73,6 +76,8 @@ int main()
 	Player *ptr_player = &player; //Pointer to the player Object
 
 	Hud ThisHud(ptr_player, guienv);
+
+
 
 
 	//guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!",rect<s32>(10, 10, 260, 22), true);
@@ -286,6 +291,9 @@ int main()
 	//NPCs done separately for interaction purposes
 	GameObject* NPC1 = new GameObject("media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true);
 	IAnimatedMesh* NPC1m = smgr->getMesh(NPC1->getMesh().c_str());
+
+	//NPC1->setPosX(-50);
+	//NPC1->setPosZ(-50);
 
 	ptm = NPC1->getPTM();
 	if (ptm != 0) {
@@ -515,6 +523,10 @@ int main()
 	int tempflag = 0;
 
 
+	
+	std::list<vector3df> NPC1Path = { vector3df(-100, 0, -100), vector3df(0, 0, 0) , vector3df(-50, 0, -50) , vector3df(-50, 0, 50) , vector3df(-100, 0, -100) };
+	NPCVehicle VNPC1 (NPC1->getPosX(), NPC1->getPosY(), NPC1->getPosZ(), NPC1Path);
+
 	while (device->run())
 	{
 		if (device->isWindowActive())
@@ -524,6 +536,11 @@ int main()
 			smgr->drawAll();
 			//guienv->drawAll();
 			ThisHud.Update();
+
+			//VNPC1.Update();
+
+			//NPC1->setPosX(VNPC1.Position.X);
+			//NPC1->setPosZ(VNPC1.Position.Z);
 
 			//deselect currently selected
 			if (highlightedSceneNode) {
