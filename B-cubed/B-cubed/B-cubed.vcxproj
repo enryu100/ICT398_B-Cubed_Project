@@ -101,8 +101,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../Dependencies/libs;./lib/Win32-visualstudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../Dependencies/libs/Lua;../Dependencies/libs;./lib/Win32-visualstudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua5.3.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)dependencies\DLLs\*" "$(OutDir)"</Command>
@@ -141,7 +141,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../Dependencies/libs;./lib/Win32-visualstudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../Dependencies/libs/Lua;../Dependencies/libs;./lib/Win32-visualstudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua5.3.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)dependencies\DLLs\*" "$(OutDir)"</Command>
@@ -171,6 +172,7 @@
     <ClCompile Include="EmotionEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Hud.cpp" />
+    <ClCompile Include="lua_Script.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +180,7 @@
     <ClInclude Include="EmotionEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Hud.h" />
+    <ClInclude Include="lua_Script.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

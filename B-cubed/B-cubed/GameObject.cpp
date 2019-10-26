@@ -93,6 +93,10 @@ void GameObject::setRotVZ(float rz){
 	rotvZ = rz;
 }
 
+void GameObject::setEmotionResponse(int er) {
+	emotionResponse = er;
+}
+
 GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, int h, float m, int pick, bool phys, bool interact) {
 	setMesh(mPath);
 	setTex(tPath);
@@ -111,6 +115,7 @@ GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, f
 	setPickable(pick);
 	setPhysics(phys);
 	setInteractible(interact);
+	setEmotionResponse(0);
 }
 
 GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, float m, int pick, bool phys, bool interact) {
@@ -126,10 +131,12 @@ GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, f
 	setScaleY(sy);
 	setScaleZ(sz);
 	setPTM(p);
+	setAnim(0);
 	setMass(m);
 	setPickable(pick);
 	setPhysics(phys);
 	setInteractible(interact);
+	setEmotionResponse(0);
 }
 
 vector3df GameObject::getScaleVector() {
@@ -189,13 +196,25 @@ void GameObject::decHunger(float val){
 	hunger -= val * hungerRate;
 }
 
-void GameObject::changeEmotion(float j, float s, float t, float d, float f, float r, float su, float a) {
-	emotions.addJoy(j);
-	emotions.addSad(s);
-	emotions.addTrust(t);
-	emotions.addDisgust(d);
-	emotions.addFear(f);
-	emotions.addAnger(r);
-	emotions.addSurprise(su);
-	emotions.addAnticipation(a);
+int GameObject::changeEmotion(float j, float s, float t, float d, float f, float r, float su, float a) {
+	
+	if (
+		emotions.addJoy(j) != 0 ||
+		emotions.addSad(s) != 0 ||
+		emotions.addTrust(t) != 0 ||
+		emotions.addDisgust(d) != 0 ||
+		emotions.addFear(f) != 0 ||
+		emotions.addAnger(r) != 0 ||
+		emotions.addSurprise(su) != 0 ||
+		emotions.addAnticipation(a) != 0
+		) {
+		setEmotionResponse(1);
+		return 1;
+	}
+	else {
+		setEmotionResponse(0);
+		return 0;
+	}
+	
+
 }

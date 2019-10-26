@@ -180,6 +180,12 @@ class GameObject {
 		* \brief emotion management system for NPCs
 		*/
 		EmotionEngine emotions;
+
+		/**
+		* \var emotionResponse
+		* \brief flag for emotion responses
+		*/
+		int emotionResponse;
 		
 		/**
 		* \var hunger
@@ -245,6 +251,7 @@ class GameObject {
 		float getRotVZ() { return rotvZ; }
 		vector3df getRotVel();
 		std::string getEmotions();
+		int getEmotionResponse() { return emotionResponse; }
 		bool isHungry();
 		/**
 		* @}
@@ -279,6 +286,7 @@ class GameObject {
 		void setRotVX(float rx);
 		void setRotVY(float ry);
 		void setRotVZ(float rz);
+		void setEmotionResponse(int er);
 		/**
 		* @}
 		*/
@@ -319,5 +327,5 @@ class GameObject {
 		 * \details Change the value for an emotion on interaction
 		 * \author Brandon Jin Yang Lim
 		 ***********************************************/
-		void changeEmotion(float j, float s, float t, float d, float f, float r, float su, float a);
+		int changeEmotion(float j, float s, float t, float d, float f, float r, float su, float a);
 };
