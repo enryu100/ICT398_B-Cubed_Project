@@ -198,16 +198,15 @@ void GameObject::decHunger(float val){
 
 int GameObject::changeEmotion(float j, float s, float t, float d, float f, float r, float su, float a) {
 	
-	if (
-		emotions.addJoy(j) != 0 ||
+	if (emotions.addJoy(j) != 0 ||
 		emotions.addSad(s) != 0 ||
 		emotions.addTrust(t) != 0 ||
 		emotions.addDisgust(d) != 0 ||
 		emotions.addFear(f) != 0 ||
 		emotions.addAnger(r) != 0 ||
 		emotions.addSurprise(su) != 0 ||
-		emotions.addAnticipation(a) != 0
-		) {
+		emotions.addAnticipation(a) != 0) {
+			
 		setEmotionResponse(1);
 		return 1;
 	}

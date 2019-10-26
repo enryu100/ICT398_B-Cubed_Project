@@ -573,15 +573,34 @@ int main()
 						
 						bill->setPosition(intersection);
 
-						//if 'J' key pressed, change joy
-						if (receiver.IsKeyDown(KEY_KEY_J)) {
-							std::cout << "J-key pressed!" << std::endl;
+						//if 'W' key pressed, change joy
+						if (receiver.IsKeyDown(KEY_KEY_W)) {
+							std::cout << "W-key pressed!" << std::endl;
 							//increase joy by 5
 							targetObject->changeEmotion(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-
-							if (targetObject->getEmotionResponse() == 1) {
-								std::cout << "Emotion Response received!" << std::endl;
-							}
+						}
+						//if 'A' key pressed, change Trust
+						if (receiver.IsKeyDown(KEY_KEY_A)) {
+							std::cout << "A-key pressed!" << std::endl;
+							//increase joy by 5
+							targetObject->changeEmotion(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+						}
+						//if 'S' key pressed, change Fear
+						if (receiver.IsKeyDown(KEY_KEY_S)) {
+							std::cout << "S-key pressed!" << std::endl;
+							//increase joy by 5
+							targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+						}
+						//if 'D' key pressed, change surprise
+						if (receiver.IsKeyDown(KEY_KEY_D)) {
+							std::cout << "D-key pressed!" << std::endl;
+							//increase joy by 5
+							targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+						}
+						
+						//check for emotional response
+						if (targetObject->getEmotionResponse() == 1) {
+							std::cout << "Emotion Response received!" << std::endl;
 						}
 					}
 					else {
