@@ -116,6 +116,7 @@ GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, f
 	setPhysics(phys);
 	setInteractible(interact);
 	setEmotionResponse(0);
+	edible = 0;
 }
 
 GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, float m, int pick, bool phys, bool interact) {
@@ -137,6 +138,7 @@ GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, f
 	setPhysics(phys);
 	setInteractible(interact);
 	setEmotionResponse(0);
+	edible = 0;
 }
 
 vector3df GameObject::getScaleVector() {

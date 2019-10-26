@@ -199,6 +199,12 @@ class GameObject {
 		*/
 		float hungerRate;
 		
+		/**
+		* \var edible
+		* \brief flag for food items
+		*/
+		int edible;
+		
 	public:
 		/********************************************//**
 		 * \fn GameObject
@@ -253,6 +259,7 @@ class GameObject {
 		std::string getEmotions();
 		int getEmotionResponse() { return emotionResponse; }
 		bool isHungry();
+		int isEdible() { return edible; }
 		/**
 		* @}
 		*/
@@ -287,6 +294,7 @@ class GameObject {
 		void setRotVY(float ry);
 		void setRotVZ(float rz);
 		void setEmotionResponse(int er);
+		void makeEdible() { edible = 1; }
 		/**
 		* @}
 		*/
