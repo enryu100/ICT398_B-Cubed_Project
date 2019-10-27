@@ -21,6 +21,9 @@ using namespace gui;
 #include "lua_Script.h"
 #include "CustomEventReceiver.h"
 
+#include "Path.h"
+#include "NPCVehicle.h"
+
 using namespace std;
 
 enum
@@ -73,6 +76,26 @@ int main()
 	Player *ptr_player = &player; //Pointer to the player Object
 
 	Hud ThisHud(ptr_player, guienv);
+
+	Vector3 NPC1P1, NPC1P2, NPC1P3, NPC1P4;
+
+	NPC1P1.x = -100;
+	NPC1P1.y = 0;
+	NPC1P1.z = -60;
+
+	NPC1P2.x = -100;
+	NPC1P2.y = 0;
+	NPC1P2.z = -350;
+
+	NPC1P3.x = 150;
+	NPC1P3.y = 0;
+	NPC1P3.z = -350;
+
+	NPC1P4.x = 150;
+	NPC1P4.y = 0;
+	NPC1P4.z = -60;
+
+	std::list<Vector3> NPC1Path = { NPC1P1, NPC1P2 , NPC1P3 , NPC1P4 };
 
 
 	//guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!",rect<s32>(10, 10, 260, 22), true);
@@ -354,7 +377,9 @@ int main()
 			}
 		}
 	}
-	GameObject* NPC2 = new GameObject("media/Sydney.md2", "media/sydney.bmp", 100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true);
+
+
+	/*GameObject* NPC2 = new GameObject("media/Sydney.md2", "media/sydney.bmp", 100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true);
 	IAnimatedMesh* NPC2m = smgr->getMesh(NPC2->getMesh().c_str());
 
 	ptm = NPC2->getPTM();
@@ -493,7 +518,7 @@ int main()
 				anim->drop();  // And likewise, drop the animator when we're done referring to it.
 			}
 		}
-	}
+	}*/
 
 
 	device->getCursorControl()->setVisible(false);
@@ -515,6 +540,10 @@ int main()
 	int tempflag = 0;
 
 
+	//std::list<vector3df> NPC1Path = { vector3df(-100, 0, -100), vector3df(0, 0, 0) , vector3df(-50, 0, -50) , vector3df(-50, 0, 50) , vector3df(-100, 0, -100) };
+	
+	NPCVehicle VNPC1 (NPC1->getPosX(), NPC1->getPosY(), NPC1->getPosZ(), NPC1Path);
+
 	while (device->run())
 	{
 		if (device->isWindowActive())
@@ -524,6 +553,11 @@ int main()
 			smgr->drawAll();
 			//guienv->drawAll();
 			ThisHud.Update();
+
+			VNPC1.Update();
+
+			//NPC1->setPosX(VNPC1.Position.X);
+			//NPC1->setPosZ(VNPC1.Position.Z);
 
 			//deselect currently selected
 			if (highlightedSceneNode) {

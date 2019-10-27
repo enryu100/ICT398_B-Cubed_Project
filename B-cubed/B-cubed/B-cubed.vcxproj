@@ -173,6 +173,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="lua_Script.cpp" />
+    <ClCompile Include="NPCVehicle.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +183,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="lua_Script.h" />
+    <ClInclude Include="NPCVehicle.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
