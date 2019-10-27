@@ -12,21 +12,21 @@ using namespace std;
 class NPCVehicle
 {
 public:
-	NPCVehicle(float x, float y, float z, std::list<vector3df> PresetPath);
+	NPCVehicle(float x, float y, float z, std::list<Vector3> PresetPath);
 	~NPCVehicle();
 
 	void Update();
 
-	vector3df Position;
-	vector3df TargetPos;
+	Vector3 Position;
+	Vector3 TargetPos;
 
 	void Seek();
-	vector3df VNormalise(vector3df vec);
-	float Length(vector3df vec);
+	Vector3 VNormalise(Vector3 vec);
+	float Length(Vector3 vec);
 	bool Arrive();
 
 private:
-	vector3df DesiredVec;
+	Vector3 DesiredVec;
 	Path ThisPath;
 };
 

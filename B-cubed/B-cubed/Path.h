@@ -3,27 +3,32 @@
 #include <list>
 #include <cassert>
 
-#include "irrlicht.h"
-//#include <iostream>
-using namespace irr;
-using namespace core;
-
 using namespace std;
+
+struct Vector3
+{
+	float x;
+	float y;
+	float z;
+};
 
 class Path
 {
 public:
 	Path();
-	//Path(std::list<vector3df> SetWayPoints);
+	//Path(std::list<Vector3> SetWayPoints);
 	~Path() { } ;
  
-	vector3df GetWaypoint();
+	Vector3 GetWaypoint();
 	void SetNextPoint();
-	void SetPath(std::list<vector3df> SetWayPoints);
+
+	void SetPath(Vector3 P1/*std::list<Vector3> SetWayPoints*/);
+	void SetPath(std::list<Vector3> SetWayPoints);
 
 private:
-	std::list<vector3df> waypoints;
-	std::list<vector3df>::iterator CurrentPoint;
+	std::list<Vector3> waypoints;
+	std::list<Vector3>::iterator CurrentPoint;
+	Vector3 /*NPC1P1,*/ NPC1P2, NPC1P3, NPC1P4;
 
 };
 
