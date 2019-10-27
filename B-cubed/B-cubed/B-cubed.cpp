@@ -118,6 +118,9 @@ int main()
 	gameObjects.push_back(new GameObject("NPC2", "media/Sydney.md2", "media/sydney.bmp", 100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
 	gameObjects.push_back(new GameObject("NPC3", "media/Sydney.md2", "media/sydney.bmp", -100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
 
+	//food object for affordance stuff.
+
+
 	//Room walls, floors and wall-mounted objects
 	gameObjects.push_back(new GameObject("media/whiteBoard.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/roof.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 0, false, false));
@@ -317,7 +320,11 @@ int main()
 			}
 		}
 	}
-	
+
+	//unique personalities for NPCs. overrides present defaults
+	gameObjects[0]->initEmotionVals(1, -1, 0, -1, 3, 0.5, 1, 2, 0.8, 2, 2, 2, 120, 50, 3, 10);
+	gameObjects[1]->initEmotionVals(-3, 2, 4, 2, -2, 1, 1, 2, 1, 1, 1, 1, 120, 50, 3, 7);
+	gameObjects[2]->initEmotionVals(1, -1, 0, -1, 1, 2, 0.5, 2, 1, 2, 2, 2, 120, 50, 3, 10);
 	
 	device->getCursorControl()->setVisible(false);
 
