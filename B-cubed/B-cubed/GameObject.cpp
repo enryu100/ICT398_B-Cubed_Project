@@ -1,5 +1,13 @@
 #include "GameObject.h"
+#include "irrlicht.h"
 
+void GameObject::setID(int i) {
+	id = i;
+}
+
+void GameObject::setName(std::string name) {
+	objName = name;
+}
 
 void GameObject::setMesh(std::string mPath) {
 	meshPath = mPath;
@@ -97,7 +105,8 @@ void GameObject::setEmotionResponse(int er) {
 	emotionResponse = er;
 }
 
-GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, int h, float m, int pick, bool phys, bool interact) {
+GameObject::GameObject(std::string name, std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, int h, float m, int pick, bool phys, bool interact) {
+	setName(name);
 	setMesh(mPath);
 	setTex(tPath);
 	setPosX(x);
@@ -119,7 +128,31 @@ GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, f
 	edible = 0;
 }
 
+GameObject::GameObject(std::string name, std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, float m, int pick, bool phys, bool interact) {
+	setName(name);
+	setMesh(mPath);
+	setTex(tPath);
+	setPosX(x);
+	setPosY(y);
+	setPosZ(z);
+	setRotX(rx);
+	setRotY(ry);
+	setRotZ(rz);
+	setScaleX(sx);
+	setScaleY(sy);
+	setScaleZ(sz);
+	setPTM(p);
+	setAnim(0);
+	setMass(m);
+	setPickable(pick);
+	setPhysics(phys);
+	setInteractible(interact);
+	setEmotionResponse(0);
+	edible = 0;
+}
+
 GameObject::GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, float m, int pick, bool phys, bool interact) {
+	setName("");
 	setMesh(mPath);
 	setTex(tPath);
 	setPosX(x);
@@ -216,6 +249,37 @@ int GameObject::changeEmotion(float j, float s, float t, float d, float f, float
 		setEmotionResponse(0);
 		return 0;
 	}
-	
+}
 
+void GameObject::setObjMesh(irr::scene::IAnimatedMesh* mesh) {
+	ObjectMesh = mesh;
+}
+
+void GameObject::setNode(irr::scene::IAnimatedMeshSceneNode* mesh) {
+	ObjectNode = mesh;
+}
+
+void GameObject::setPosVec(vector3df vec) {
+	posX = vec.X;
+	posY = vec.Y;
+	posZ = vec.Z;
+}
+
+void GameObject::setRotVec(vector3df vec) {
+	rotX = vec.X;
+	rotY = vec.Y;
+	rotZ = vec.Z;
+}
+
+void GameObject::setScaleVec(vector3df vec) {
+	scaleX = vec.X;
+	scaleY = vec.Y;
+	scaleZ = vec.Z;
+}
+
+void GameObject::updatePosition() {
+	ObjectNode->setPosition(getPosVector());
+}
+void GameObject::updateRotation() {
+	ObjectNode->setRotation(getRotVector());
 }
