@@ -340,7 +340,7 @@ int main()
 
 	//std::list<vector3df> NPC1Path = { vector3df(-100, 0, -100), vector3df(0, 0, 0) , vector3df(-50, 0, -50) , vector3df(-50, 0, 50) , vector3df(-100, 0, -100) };
 	
-	NPCVehicle VNPC1 (NPC1->getPosX(), NPC1->getPosY(), NPC1->getPosZ(), NPC1Path);
+	NPCVehicle VNPC1 (gameObjects[0]->getPosX(), gameObjects[0]->getPosY(), gameObjects[0]->getPosZ(), NPC1Path);
 
 	while (device->run())
 	{
