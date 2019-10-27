@@ -90,6 +90,10 @@ int main()
 
 	vector<GameObject*> gameObjects;
 	
+	//NPCs
+	gameObjects.push_back(new GameObject("NPC1", "media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
+	gameObjects.push_back(new GameObject("NPC2", "media/Sydney.md2", "media/sydney.bmp", 100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
+	gameObjects.push_back(new GameObject("NPC3", "media/Sydney.md2", "media/sydney.bmp", -100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
 
 	//Room walls, floors and wall-mounted objects
 	gameObjects.push_back(new GameObject("media/whiteBoard.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
@@ -121,7 +125,7 @@ int main()
 	gameObjects.push_back(new GameObject("media/desalto_bend_in_obj.obj", "media/WhiteTabletop.bmp", -80, -80, 200, 0, 90, 0, 1, 1, 1, 0.003, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/desalto_bend_in_obj.obj", "media/WhiteTabletop.bmp", -0, -80, -200, 0, 90, 0, 1, 1, 1, 0.003, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/lecturn.obj", "media/WhiteTabletop.bmp", 180, -86, 200, 0, 0, 0, 3, 4, 6, 0.003, 1, 1, false, false));
-	gameObjects.push_back(new GameObject("media/marker.obj", "", 180, -31, 160, 0, 0, 0, 1, 1, 1, 0, 1, 1, false, false));
+	gameObjects.push_back(new GameObject("marker", "media/marker.obj", "", 180, -31, 160, 0, 0, 0, 1, 1, 1, 0, 1, 1, false, false));
 
 	//PC-workstation sets
 	gameObjects.push_back(new GameObject("media/monitor.obj", "", 440, 75, -578, 0, 0, 0, 0.1, 0.1, 0.1, 0, 1, 0, false, false));
@@ -206,67 +210,78 @@ int main()
 	gameObjects.push_back(new GameObject("media/Office_chair_obj/Office_chair.obj", "", -260, -85, 80, 0, 270, 0, 0.1, 0.1, 0.1, 0.003, 1, 1, false, false));
 
 	float ptm;
+	core::map<ISceneNode*, GameObject*> objectByNode;
+	core::map<std::string, GameObject*> objectsByName;
+	objectByNode.clear();
+	std::vector<IAnimatedMeshSceneNode*> nodes;
 
 	int i = 0;
 	for (i = 0; i < gameObjects.size(); i++){
-		IAnimatedMesh* temp = smgr->getMesh(gameObjects[i]->getMesh().c_str());
+		gameObjects[i]->setObjMesh(smgr->getMesh(gameObjects[i]->getMesh().c_str()));
 		
 		ptm = gameObjects[i]->getPTM();
 		if(ptm != 0){
-			smgr->getMeshManipulator()->makePlanarTextureMapping(temp->getMesh(0), ptm);
+			smgr->getMeshManipulator()->makePlanarTextureMapping(gameObjects[i]->getObjMesh()->getMesh(0), ptm);
 		}
-		if (!temp)
+		if (!gameObjects[i]->getObjMesh())
 		{
 			device->drop();
 			return 1;
 		}
 		
-		IAnimatedMeshSceneNode* tempContainer = 0;
+		
 		
 		switch (gameObjects[i]->getPickable()) {
 			case 0:
-				tempContainer = smgr->addAnimatedMeshSceneNode(temp, 0, ID_IsNotPickable);
+				nodes.push_back(smgr->addAnimatedMeshSceneNode(gameObjects[i]->getObjMesh(), 0, ID_IsNotPickable));
 				break;
 			case 1:
-				tempContainer = smgr->addAnimatedMeshSceneNode(temp, 0, IDFlag_IsPickable);
+				nodes.push_back(smgr->addAnimatedMeshSceneNode(gameObjects[i]->getObjMesh(), 0, IDFlag_IsPickable));
 				break;
 			case 2:
-				tempContainer = smgr->addAnimatedMeshSceneNode(temp, 0, IDFlag_IsPickable | IDFlag_IsHighlightable);
+				nodes.push_back(smgr->addAnimatedMeshSceneNode(gameObjects[i]->getObjMesh(), 0, IDFlag_IsPickable | IDFlag_IsHighlightable));
 				break;
 			default:
-				tempContainer = smgr->addAnimatedMeshSceneNode(temp);
+				nodes.push_back(smgr->addAnimatedMeshSceneNode(gameObjects[i]->getObjMesh()));
 				break;
 		}
 
-		if (tempContainer != 0)
-		{
+		gameObjects[i]->setID(i);
+		gameObjects[i]->setNode(nodes[i]);
 
-			tempContainer->setMaterialFlag(EMF_LIGHTING, false);
+		if (gameObjects[i]->getNode())
+		{
+			objectByNode.insert(gameObjects[i]->getNode(), gameObjects[i]);
+			if (gameObjects[i]->getName() != "") {
+				objectsByName.insert(gameObjects[i]->getName(), gameObjects[i]);
+			}
+
+			gameObjects[i]->getNode()->setMaterialFlag(EMF_LIGHTING, false);
 			if(gameObjects[i]->getPTM() == 1){
-				tempContainer->setMD2Animation(scene::EMAT_STAND);
+				gameObjects[i]->getNode()->setMD2Animation(scene::EMAT_STAND);
 			}
 			if(gameObjects[i]->getTex() != ""){
-				tempContainer->setMaterialTexture(0, driver->getTexture(gameObjects[i]->getTex().c_str()));
+				gameObjects[i]->getNode()->setMaterialTexture(0, driver->getTexture(gameObjects[i]->getTex().c_str()));
 			}
-			tempContainer->setScale(gameObjects[i]->getScaleVector());
-			tempContainer->setPosition(gameObjects[i]->getPosVector());
-			tempContainer->setRotation(gameObjects[i]->getRotVector());
+			gameObjects[i]->getNode()->setScale(gameObjects[i]->getScaleVector());
+			gameObjects[i]->getNode()->setPosition(gameObjects[i]->getPosVector());
+			gameObjects[i]->getNode()->setRotation(gameObjects[i]->getRotVector());
 
 			if (gameObjects[i]->getAnim() == 1) {
-				tempContainer->setMD2Animation(scene::EMAT_STAND);
+				gameObjects[i]->getNode()->setMD2Animation(scene::EMAT_STAND);
 			}
 
 			if (gameObjects[i]->getInteractible()) {
 				//object in NPC
 				gameObjects[i]->initEmotions();
-				scene::ITriangleSelector* tempselector = smgr->createTriangleSelector(tempContainer);
-				tempContainer->setTriangleSelector(tempselector);
+				scene::ITriangleSelector* tempselector = smgr->createTriangleSelector(gameObjects[i]->getNode());
+				gameObjects[i]->getNode()->setTriangleSelector(tempselector);
 				tempselector->drop();
 			}
 
 			if(gameObjects[i]->getPickable() != 0){
-				scene::ITriangleSelector* selector = smgr->createTriangleSelector(temp, tempContainer);
-				tempContainer->setTriangleSelector(selector);
+				scene::ITriangleSelector* selector = smgr->createTriangleSelector(gameObjects[i]->getObjMesh(), gameObjects[i]->getNode());
+				gameObjects[i]->getNode()->setTriangleSelector(selector);
 				if (selector)
 				{
 					scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
@@ -279,222 +294,6 @@ int main()
 			}
 		}
 	}
-
-	core::map<ISceneNode*, GameObject*> objectByNode;
-	objectByNode.clear();
-
-	//NPCs done separately for interaction purposes
-	GameObject* NPC1 = new GameObject("media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true);
-	IAnimatedMesh* NPC1m = smgr->getMesh(NPC1->getMesh().c_str());
-
-	ptm = NPC1->getPTM();
-	if (ptm != 0) {
-		smgr->getMeshManipulator()->makePlanarTextureMapping(NPC1m->getMesh(0), ptm);
-	}
-	if (!NPC1m)
-	{
-		device->drop();
-		return 1;
-	}
-
-	IAnimatedMeshSceneNode* NPC1n = 0;
-
-	switch (NPC1->getPickable()) {
-	case 0:
-		NPC1n = smgr->addAnimatedMeshSceneNode(NPC1m, 0, ID_IsNotPickable);
-		break;
-	case 1:
-		NPC1n = smgr->addAnimatedMeshSceneNode(NPC1m, 0, IDFlag_IsPickable);
-		break;
-	case 2:
-		NPC1n = smgr->addAnimatedMeshSceneNode(NPC1m, 0, IDFlag_IsPickable | IDFlag_IsHighlightable);
-		break;
-	default:
-		NPC1n = smgr->addAnimatedMeshSceneNode(NPC1m);
-		break;
-	}
-
-	if (NPC1n != 0)
-	{
-		objectByNode.insert(NPC1n, NPC1);
-		NPC1n->setMaterialFlag(EMF_LIGHTING, false);
-		if (NPC1->getPTM() == 1) {
-			NPC1n->setMD2Animation(scene::EMAT_STAND);
-		}
-		if (NPC1->getTex() != "") {
-			NPC1n->setMaterialTexture(0, driver->getTexture(NPC1->getTex().c_str()));
-		}
-		NPC1n->setScale(NPC1->getScaleVector());
-		NPC1n->setPosition(NPC1->getPosVector());
-		NPC1n->setRotation(NPC1->getRotVector());
-
-		if (NPC1->getAnim() == 1) {
-			NPC1n->setMD2Animation(scene::EMAT_STAND);
-		}
-
-		if (NPC1->getInteractible()) {
-			//object in NPC
-			NPC1->initEmotions();
-			scene::ITriangleSelector* tempselector = smgr->createTriangleSelector(NPC1n);
-			NPC1n->setTriangleSelector(tempselector);
-			tempselector->drop();
-		}
-
-		if (NPC1->getPickable() != 0) {
-			scene::ITriangleSelector* selector = smgr->createTriangleSelector(NPC1m, NPC1n);
-			NPC1n->setTriangleSelector(selector);
-			if (selector)
-			{
-				scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
-					selector, camera, core::vector3df(30, 1000, 30),
-					core::vector3df(0, 0, 0), core::vector3df(0, 50, 0));
-				selector->drop(); // As soon as we're done with the selector, drop it.
-				camera->addAnimator(anim);
-				anim->drop();  // And likewise, drop the animator when we're done referring to it.
-			}
-		}
-	}
-	GameObject* NPC2 = new GameObject("media/Sydney.md2", "media/sydney.bmp", 100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true);
-	IAnimatedMesh* NPC2m = smgr->getMesh(NPC2->getMesh().c_str());
-
-	ptm = NPC2->getPTM();
-	if (ptm != 0) {
-		smgr->getMeshManipulator()->makePlanarTextureMapping(NPC2m->getMesh(0), ptm);
-	}
-	if (!NPC2m)
-	{
-		device->drop();
-		return 1;
-	}
-
-	IAnimatedMeshSceneNode* NPC2n = 0;
-
-	switch (NPC2->getPickable()) {
-	case 0:
-		NPC2n = smgr->addAnimatedMeshSceneNode(NPC2m, 0, ID_IsNotPickable);
-		break;
-	case 1:
-		NPC2n = smgr->addAnimatedMeshSceneNode(NPC2m, 0, IDFlag_IsPickable);
-		break;
-	case 2:
-		NPC2n = smgr->addAnimatedMeshSceneNode(NPC2m, 0, IDFlag_IsPickable | IDFlag_IsHighlightable);
-		break;
-	default:
-		NPC2n = smgr->addAnimatedMeshSceneNode(NPC2m);
-		break;
-	}
-
-	if (NPC2n != 0)
-	{
-		objectByNode.insert(NPC2n, NPC2);
-		NPC2n->setMaterialFlag(EMF_LIGHTING, false);
-		if (NPC2->getPTM() == 1) {
-			NPC2n->setMD2Animation(scene::EMAT_STAND);
-		}
-		if (NPC2->getTex() != "") {
-			NPC2n->setMaterialTexture(0, driver->getTexture(NPC2->getTex().c_str()));
-		}
-		NPC2n->setScale(NPC2->getScaleVector());
-		NPC2n->setPosition(NPC2->getPosVector());
-		NPC2n->setRotation(NPC2->getRotVector());
-
-		if (NPC2->getAnim() == 1) {
-			NPC2n->setMD2Animation(scene::EMAT_STAND);
-		}
-
-		if (NPC2->getInteractible()) {
-			//object in NPC
-			NPC2->initEmotions();
-			scene::ITriangleSelector* tempselector = smgr->createTriangleSelector(NPC2n);
-			NPC2n->setTriangleSelector(tempselector);
-			tempselector->drop();
-		}
-
-		if (NPC2->getPickable() != 0) {
-			scene::ITriangleSelector* selector = smgr->createTriangleSelector(NPC2m, NPC2n);
-			NPC2n->setTriangleSelector(selector);
-			if (selector)
-			{
-				scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
-					selector, camera, core::vector3df(30, 1000, 30),
-					core::vector3df(0, 0, 0), core::vector3df(0, 50, 0));
-				selector->drop(); // As soon as we're done with the selector, drop it.
-				camera->addAnimator(anim);
-				anim->drop();  // And likewise, drop the animator when we're done referring to it.
-			}
-		}
-	}
-	GameObject* NPC3 = new GameObject("media/Sydney.md2", "media/sydney.bmp", -100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true);
-	IAnimatedMesh* NPC3m = smgr->getMesh(NPC3->getMesh().c_str());
-
-	ptm = NPC3->getPTM();
-	if (ptm != 0) {
-		smgr->getMeshManipulator()->makePlanarTextureMapping(NPC3m->getMesh(0), ptm);
-	}
-	if (!NPC3m)
-	{
-		device->drop();
-		return 1;
-	}
-
-	IAnimatedMeshSceneNode* NPC3n = 0;
-
-	switch (NPC3->getPickable()) {
-	case 0:
-		NPC3n = smgr->addAnimatedMeshSceneNode(NPC3m, 0, ID_IsNotPickable);
-		break;
-	case 1:
-		NPC3n = smgr->addAnimatedMeshSceneNode(NPC3m, 0, IDFlag_IsPickable);
-		break;
-	case 2:
-		NPC3n = smgr->addAnimatedMeshSceneNode(NPC3m, 0, IDFlag_IsPickable | IDFlag_IsHighlightable);
-		break;
-	default:
-		NPC3n = smgr->addAnimatedMeshSceneNode(NPC3m);
-		break;
-	}
-
-	if (NPC3n != 0)
-	{
-		objectByNode.insert(NPC3n, NPC3);
-		NPC3n->setMaterialFlag(EMF_LIGHTING, false);
-		if (NPC3->getPTM() == 1) {
-			NPC3n->setMD2Animation(scene::EMAT_STAND);
-		}
-		if (NPC3->getTex() != "") {
-			NPC3n->setMaterialTexture(0, driver->getTexture(NPC3->getTex().c_str()));
-		}
-		NPC3n->setScale(NPC3->getScaleVector());
-		NPC3n->setPosition(NPC3->getPosVector());
-		NPC3n->setRotation(NPC3->getRotVector());
-
-		if (NPC3->getAnim() == 1) {
-			NPC3n->setMD2Animation(scene::EMAT_STAND);
-		}
-
-		if (NPC3->getInteractible()) {
-			//object in NPC
-			NPC3->initEmotions();
-			scene::ITriangleSelector* tempselector = smgr->createTriangleSelector(NPC3n);
-			NPC3n->setTriangleSelector(tempselector);
-			tempselector->drop();
-		}
-
-		if (NPC3->getPickable() != 0) {
-			scene::ITriangleSelector* selector = smgr->createTriangleSelector(NPC3m, NPC3n);
-			NPC3n->setTriangleSelector(selector);
-			if (selector)
-			{
-				scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
-					selector, camera, core::vector3df(30, 1000, 30),
-					core::vector3df(0, 0, 0), core::vector3df(0, 50, 0));
-				selector->drop(); // As soon as we're done with the selector, drop it.
-				camera->addAnimator(anim);
-				anim->drop();  // And likewise, drop the animator when we're done referring to it.
-			}
-		}
-	}
-
 
 	device->getCursorControl()->setVisible(false);
 
@@ -512,7 +311,7 @@ int main()
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	GameObject* targetObject = 0;
 	int lastFPS = -1;
-	int tempflag = 0;
+	int tempflag = 0, tempflag2 = 0, hasbeenmoved = 0;
 
 
 	while (device->run())
@@ -562,45 +361,64 @@ int main()
 					// which means that it will be drawn with full brightness.
 					highlightedSceneNode->setMaterialFlag(video::EMF_LIGHTING, false);
 
-					targetObject = (GameObject*)objectByNode.find(highlightedSceneNode);
+					if (!objectByNode.empty()) {
+						targetObject = (GameObject*)objectByNode.find(highlightedSceneNode);
 
-					//if object exists and is interactible, do stuff
-					if (targetObject) {
-						if (tempflag == 0) {
-							std::cout << "target exists as game object" << std::endl;
-							tempflag = 1;
-						}
-						
-						bill->setPosition(intersection);
+						//if object exists and is interactible, do stuff
+						if (targetObject) {
 
-						//if 'W' key pressed, change joy
-						if (receiver.IsKeyDown(KEY_KEY_W)) {
-							std::cout << "W-key pressed!" << std::endl;
-							//increase joy by 5
-							targetObject->changeEmotion(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-						}
-						//if 'A' key pressed, change Trust
-						if (receiver.IsKeyDown(KEY_KEY_A)) {
-							std::cout << "A-key pressed!" << std::endl;
-							//increase joy by 5
-							targetObject->changeEmotion(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-						}
-						//if 'S' key pressed, change Fear
-						if (receiver.IsKeyDown(KEY_KEY_S)) {
-							std::cout << "S-key pressed!" << std::endl;
-							//increase joy by 5
-							targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-						}
-						//if 'D' key pressed, change surprise
-						if (receiver.IsKeyDown(KEY_KEY_D)) {
-							std::cout << "D-key pressed!" << std::endl;
-							//increase joy by 5
-							targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-						}
-						
-						//check for emotional response
-						if (targetObject->getEmotionResponse() == 1) {
-							std::cout << "Emotion Response received!" << std::endl;
+							if (tempflag == 0) {
+								std::cout << "target exists as game object" << std::endl;
+								tempflag = 1;
+							}
+
+							bill->setPosition(intersection);
+
+							//if 'W' key pressed, change joy
+							if (receiver.IsKeyDown(KEY_KEY_W)) {
+								std::cout << "W-key pressed!" << std::endl;
+								//increase joy by 5
+								targetObject->changeEmotion(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+								tempflag2 = 0;
+							}
+							//if 'A' key pressed, change Trust
+							if (receiver.IsKeyDown(KEY_KEY_A)) {
+								std::cout << "A-key pressed!" << std::endl;
+								//increase joy by 5
+								targetObject->changeEmotion(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+								tempflag2 = 0;
+							}
+							//if 'S' key pressed, change Fear
+							if (receiver.IsKeyDown(KEY_KEY_S)) {
+								std::cout << "S-key pressed!" << std::endl;
+								//increase joy by 5
+								targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+								tempflag2 = 0;
+							}
+							//if 'D' key pressed, change surprise
+							if (receiver.IsKeyDown(KEY_KEY_D)) {
+								std::cout << "D-key pressed!" << std::endl;
+								//increase joy by 5
+								targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+								tempflag2 = 0;
+							}
+							if (receiver.IsKeyDown(KEY_ESCAPE)) {
+								device->closeDevice();
+							}
+
+							//movement testing
+							if (receiver.IsKeyDown(KEY_KEY_X)) {
+								vector3df tempPos = targetObject->getPosVector();
+								tempPos.Z -= 200;
+								targetObject->setPosVec(tempPos);
+								highlightedSceneNode->setPosition(tempPos);
+							}
+
+							//check for emotional response
+							if (targetObject->getEmotionResponse() == 1 && tempflag2 == 0) {
+								std::cout << "Emotion Response received!" << std::endl;
+								tempflag2 = 1;
+							}
 						}
 					}
 					else {
@@ -610,6 +428,20 @@ int main()
 				else {
 					tempflag = 0;
 				}
+			}
+
+			//positioning test
+			if (receiver.IsKeyDown(KEY_KEY_Z)) {
+				GameObject *target = (GameObject*)objectsByName.find("marker");
+
+				ISceneNode *tNode = nodes[28];
+				if ((!tNode) || tNode == nullptr) {
+					std::cout << "error: no node" << std::endl;
+				}
+				vector3df tmp = target->getPosVector();
+				tmp.Z = 100.0f;
+				target->setPosVec(tmp);
+				tNode->setPosition(tmp);
 			}
 
 			driver->endScene();

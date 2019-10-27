@@ -19,6 +19,20 @@ using namespace core;
 class GameObject {
 	private:
 		/**
+		* \var id
+		* \brief ID
+		* \details ID
+		*/
+		int id;
+
+		/**
+		* \var objName
+		* \brief Name of Object
+		* \details Name of Object, used for searching purposes
+		*/
+		std::string objName;
+
+		/**
 		* \addtogroup filePaths
 		* \brief paths to relevant files
 		* \details the filepaths of the mesh and texture for the object
@@ -205,6 +219,20 @@ class GameObject {
 		*/
 		int edible;
 		
+		/**
+		* \var ObjectMesh
+		* \brief pointer to the object's mesh
+		*/
+		irr::scene::IAnimatedMesh* ObjectMesh;
+		
+		/**
+		* \var ObjectNode
+		* \brief pointer to the object's node
+		*/
+		irr::scene::IAnimatedMeshSceneNode* ObjectNode;
+
+
+		
 	public:
 		/********************************************//**
 		 * \fn GameObject
@@ -212,12 +240,20 @@ class GameObject {
 		 * \details overloaded constructor which sets all variables. For models with animations
 		 * \author Brandon Jin Yang Lim
 		 ***********************************************/
-		GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, int h, float m, int pick, bool phys, bool interact);
+		GameObject(std::string name, std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, int h, float m, int pick, bool phys, bool interact);
 		
 		/********************************************//**
 		 * \fn GameObject
 		 * \brief overloaded constructor
 		 * \details overloaded constructor which sets variables. for models with no animations
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		GameObject(std::string name, std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, float m, int pick, bool phys, bool interact);
+		
+		/********************************************//**
+		 * \fn GameObject
+		 * \brief overloaded constructor
+		 * \details overloaded constructor which sets variables. for static objects
 		 * \author Brandon Jin Yang Lim
 		 ***********************************************/
 		GameObject(std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, float m, int pick, bool phys, bool interact);
@@ -228,6 +264,7 @@ class GameObject {
 		* \details getter functions which return the variable
 		* @{
 		*/
+		int getID() { return id; }
 		std::string getMesh() { return meshPath; }
 		std::string getTex() { return texPath; }
 		float getPosX() { return posX; }
@@ -257,9 +294,12 @@ class GameObject {
 		float getRotVZ() { return rotvZ; }
 		vector3df getRotVel();
 		std::string getEmotions();
+		std::string getName() { return objName; }
 		int getEmotionResponse() { return emotionResponse; }
 		bool isHungry();
 		int isEdible() { return edible; }
+		irr::scene::IAnimatedMesh* getObjMesh() { return ObjectMesh; }
+		irr::scene::IAnimatedMeshSceneNode* getNode() { return ObjectNode; }
 		/**
 		* @}
 		*/
@@ -270,17 +310,22 @@ class GameObject {
 		* \details setter functions for setting variables
 		* @{
 		*/
+		void setID(int i);
+		void setName(std::string name);
 		void setMesh(std::string mPath);
 		void setTex(std::string tPath);
 		void setPosX(float x);
 		void setPosY(float y);
 		void setPosZ(float z);
+		void setPosVec(vector3df vec);
 		void setRotX(float x);
 		void setRotY(float y);
 		void setRotZ(float z);
+		void setRotVec(vector3df vec);
 		void setScaleX(float x);
 		void setScaleY(float y);
 		void setScaleZ(float z);
+		void setScaleVec(vector3df vec);
 		void setPTM(float p);
 		void setAnim(int h);
 		void setMass(float m);
@@ -295,6 +340,8 @@ class GameObject {
 		void setRotVZ(float rz);
 		void setEmotionResponse(int er);
 		void makeEdible() { edible = 1; }
+		void setObjMesh(irr::scene::IAnimatedMesh* mesh);
+		void setNode(irr::scene::IAnimatedMeshSceneNode* node);
 		/**
 		* @}
 		*/
@@ -336,4 +383,22 @@ class GameObject {
 		 * \author Brandon Jin Yang Lim
 		 ***********************************************/
 		int changeEmotion(float j, float s, float t, float d, float f, float r, float su, float a);
+
+		/********************************************//**
+		 * \fn updatePosition
+		 * \brief updates Object's position
+		 * \details updates object's position based on its current position values
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		void updatePosition();
+
+		/********************************************//**
+		 * \fn updateRotation
+		 * \brief updates Object's rotation
+		 * \details updates object's rotation based on its current rotation values
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		void updateRotation();
+
+
 };
