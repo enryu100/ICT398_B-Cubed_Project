@@ -216,7 +216,7 @@ std::string GameObject::getEmotions() {
 }
 
 bool GameObject::isHungry(){
-	if(hunger >= 10){
+	if(hunger >= 50){
 		return true;
 	} else{
 		return false;
@@ -225,10 +225,16 @@ bool GameObject::isHungry(){
 
 void GameObject::incHunger(float val){
 	hunger += val * hungerRate;
+	if (hunger > 100) {
+		hunger = 100;
+	}
 }
 
 void GameObject::decHunger(float val){
 	hunger -= val * hungerRate;
+	if (hunger < 0) {
+		hunger = 0;
+	}
 }
 
 int GameObject::changeEmotion(float j, float s, float t, float d, float f, float r, float su, float a) {

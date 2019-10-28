@@ -340,6 +340,7 @@ class GameObject {
 		void setRotVZ(float rz);
 		void setEmotionResponse(int er);
 		void makeEdible() { edible = 1; }
+		void makeInedible() { edible = 0; }
 		void setObjMesh(irr::scene::IAnimatedMesh* mesh);
 		void setNode(irr::scene::IAnimatedMeshSceneNode* node);
 		/**

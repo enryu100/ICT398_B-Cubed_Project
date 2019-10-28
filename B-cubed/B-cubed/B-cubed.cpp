@@ -119,7 +119,8 @@ int main()
 	gameObjects.push_back(new GameObject("NPC3", "media/Sydney.md2", "media/sydney.bmp", -100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
 
 	//food object for affordance stuff.
-
+	gameObjects.push_back(new GameObject("food", "media/Bread.obj", "", 0, 0, 0, 40, 0, 0, 30, 30, 30, 0, 1, 0, false, false));
+	gameObjects[3]->makeEdible();
 
 	//Room walls, floors and wall-mounted objects
 	gameObjects.push_back(new GameObject("media/whiteBoard.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
@@ -474,7 +475,7 @@ int main()
 			if (receiver.IsKeyDown(KEY_KEY_Z)) {
 				GameObject *target = (GameObject*)objectsByName.find("marker");
 
-				ISceneNode *tNode = nodes[28];
+				ISceneNode *tNode = nodes[29];
 				if ((!tNode) || tNode == nullptr) {
 					std::cout << "error: no node" << std::endl;
 				}
@@ -482,6 +483,20 @@ int main()
 				tmp.Z = 100.0f;
 				target->setPosVec(tmp);
 				tNode->setPosition(tmp);
+			}
+
+			if (gameObjects[0]->isHungry()) {
+				vector3df NPCPos = gameObjects[0]->getPosVector();
+				vector3df FoodPos = gameObjects[3]->getPosVector();
+
+				//if NPC is within 10 units of food horizontally, and food is edible
+				if ((NPCPos.X - FoodPos.X <= 10) && (NPCPos.X - FoodPos.X >= -10) &&
+					(NPCPos.Z - FoodPos.Z <= 10) && (NPCPos.Z - FoodPos.Z >= -10) &&
+					gameObjects[3]->isEdible()){
+					//food in range
+					gameObjects[0]->decHunger(50);
+					
+				}
 			}
 
 			driver->endScene();
