@@ -6,11 +6,10 @@ using namespace std;
 
 
 
-NPCVehicle::NPCVehicle(float x, float y, float z, std::list<Vector3> PresetPath)
+NPCVehicle::NPCVehicle(float x, float y, float z, Path *thisPath)
 {
 
-	Path ThisPath;
-	//ThisPath.SetPath(NPC1Path);
+	ThisPath = *thisPath;
 
 	Position.x = x;
 	Position.y = y;
@@ -34,7 +33,7 @@ void NPCVehicle::Update()
 	}
 	Seek();
 
-	cout << "X: " << Position.x << "      Z: " << Position.z << endl;
+	//cout << "X: " << Position.x << "      Z: " << Position.z << endl;
 }
 
 void NPCVehicle::Seek()

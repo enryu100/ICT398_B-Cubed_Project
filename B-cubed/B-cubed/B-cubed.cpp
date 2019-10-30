@@ -77,26 +77,6 @@ int main()
 
 	Hud ThisHud(ptr_player, guienv);
 
-	Vector3 NPC1P1, NPC1P2, NPC1P3, NPC1P4;
-
-	NPC1P1.x = -100;
-	NPC1P1.y = 0;
-	NPC1P1.z = -60;
-
-	NPC1P2.x = -100;
-	NPC1P2.y = 0;
-	NPC1P2.z = -350;
-
-	NPC1P3.x = 150;
-	NPC1P3.y = 0;
-	NPC1P3.z = -350;
-
-	NPC1P4.x = 150;
-	NPC1P4.y = 0;
-	NPC1P4.z = -60;
-
-	std::list<Vector3> NPC1Path = { NPC1P1, NPC1P2 , NPC1P3 , NPC1P4 };
-
 
 	//guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!",rect<s32>(10, 10, 260, 22), true);
 	//device->maximizeWindow();
@@ -114,12 +94,14 @@ int main()
 	vector<GameObject*> gameObjects;
 	
 	//NPCs
-	gameObjects.push_back(new GameObject("NPC1", "media/Sydney.md2", "media/sydney.bmp", -100, 0, -100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
+	gameObjects.push_back(new GameObject("NPC1", "media/Sydney.md2", "media/sydney.bmp", -100, 0, -60, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
+
 	gameObjects.push_back(new GameObject("NPC2", "media/Sydney.md2", "media/sydney.bmp", 100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
-	gameObjects.push_back(new GameObject("NPC3", "media/Sydney.md2", "media/sydney.bmp", -100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
+																						
+	gameObjects.push_back(new GameObject("NPC3", "media/Sydney.md2", "media/sydney.bmp", -170, 0, 80, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
 
 	//food object for affordance stuff.
-	gameObjects.push_back(new GameObject("food", "media/Bread.obj", "", 0, 0, 0, 40, 0, 0, 30, 30, 30, 0, 1, 0, false, false));
+	gameObjects.push_back(new GameObject("food", "media/Bread.obj", "", 0, 0, -60, 40, 0, 0, 30, 30, 30, 0, 1, 0, false, false));
 	gameObjects[3]->makeEdible();
 
 	//Room walls, floors and wall-mounted objects
@@ -347,8 +329,64 @@ int main()
 
 
 	//std::list<vector3df> NPC1Path = { vector3df(-100, 0, -100), vector3df(0, 0, 0) , vector3df(-50, 0, -50) , vector3df(-50, 0, 50) , vector3df(-100, 0, -100) };
-	
-	NPCVehicle VNPC1 (gameObjects[0]->getPosX(), gameObjects[0]->getPosY(), gameObjects[0]->getPosZ(), NPC1Path);
+
+
+	Vector3 NPC1P1, NPC1P2, NPC1P3, NPC1P4;
+	Vector3 NPC2P1, NPC2P2, NPC2P3, NPC2P4;
+	Vector3 NPC3P1, NPC3P2, NPC3P3, NPC3P4;
+
+	NPC1P1.x = -100;
+	NPC1P1.y = 0;
+	NPC1P1.z = -60;
+	//===============
+	NPC1P2.x = -100;
+	NPC1P2.y = 0;
+	NPC1P2.z = -350;
+	//===============
+	NPC1P3.x = 150;
+	NPC1P3.y = 0;
+	NPC1P3.z = -350;
+	//===============
+	NPC1P4.x = 150;
+	NPC1P4.y = 0;
+	NPC1P4.z = -60;
+
+	std::list<Vector3> NPC1Path = { NPC1P1, NPC1P2 , NPC1P3 , NPC1P4 };
+	Path npc1Path = Path();
+	Path npcTestPath = Path(NPC1Path);
+	npc1Path.SetPath(NPC1Path);
+
+	//=============================================================================
+
+	NPC3P1.x = -170;
+	NPC3P1.y = 0;
+	NPC3P1.z = 80;
+	//===============
+	NPC3P2.x = -170;
+	NPC3P2.y = 0;
+	NPC3P2.z = 340;
+	//===============
+	NPC3P3.x = 20;
+	NPC3P3.y = 0;
+	NPC3P3.z = 340;
+	//===============
+	NPC3P4.x = 20;
+	NPC3P4.y = 0;
+	NPC3P4.z = 80;
+
+	std::list<Vector3> NPC3Path = { NPC3P1, NPC3P2 , NPC3P3 , NPC3P4 };
+	Path npc3Path = Path();
+	Path npcTestPath3 = Path(NPC3Path);
+	npc3Path.SetPath(NPC3Path);
+
+
+
+	NPCVehicle VNPC1(gameObjects[0]->getPosX(), gameObjects[0]->getPosY(), gameObjects[0]->getPosZ(), &npcTestPath);
+					//-100													//-60
+//	NPCVehicle VNPC1(gameObjects[0]->getPosX(), gameObjects[0]->getPosY(), gameObjects[0]->getPosZ(), &npcTestPath);
+
+	NPCVehicle VNPC3(gameObjects[2]->getPosX(), gameObjects[2]->getPosY(), gameObjects[2]->getPosZ(), &npcTestPath3);
+
 
 	while (device->run())
 	{
@@ -358,9 +396,25 @@ int main()
 
 			smgr->drawAll();
 			//guienv->drawAll();
-			ThisHud.Update();
+			
 
 			VNPC1.Update();
+			gameObjects[0]->incHunger(0.001);
+			VNPC3.Update();
+
+			vector3df tempvec1;
+			tempvec1.X = VNPC1.Position.x;
+			tempvec1.Y = VNPC1.Position.y;
+			tempvec1.Z = VNPC1.Position.z;
+			gameObjects[0]->setPosVec(tempvec1);
+			nodes[0]->setPosition(tempvec1);
+
+			vector3df tempvec3;
+			tempvec3.X = VNPC3.Position.x;
+			tempvec3.Y = VNPC3.Position.y;
+			tempvec3.Z = VNPC3.Position.z;
+			gameObjects[2]->setPosVec(tempvec3);
+			nodes[2]->setPosition(tempvec3);
 
 			//NPC1->setPosX(VNPC1.Position.X);
 			//NPC1->setPosZ(VNPC1.Position.Z);
@@ -413,6 +467,8 @@ int main()
 								tempflag = 1;
 							}
 
+							ThisHud.updateNPCData(targetObject->getEmotions());
+
 							bill->setPosition(intersection);
 
 							//if 'W' key pressed, change joy
@@ -443,9 +499,6 @@ int main()
 								targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 								tempflag2 = 0;
 							}
-							if (receiver.IsKeyDown(KEY_ESCAPE)) {
-								device->closeDevice();
-							}
 
 							//movement testing
 							if (receiver.IsKeyDown(KEY_KEY_X)) {
@@ -467,9 +520,12 @@ int main()
 					}
 				}
 				else {
+					ThisHud.updateNPCData("");
 					tempflag = 0;
 				}
 			}
+
+			ThisHud.Update();
 
 			//positioning test
 			if (receiver.IsKeyDown(KEY_KEY_Z)) {
@@ -485,6 +541,11 @@ int main()
 				tNode->setPosition(tmp);
 			}
 
+			//on esc press, exit
+			if (receiver.IsKeyDown(KEY_ESCAPE)) {
+				device->closeDevice();
+			}
+			
 			if (gameObjects[0]->isHungry()) {
 				vector3df NPCPos = gameObjects[0]->getPosVector();
 				vector3df FoodPos = gameObjects[3]->getPosVector();

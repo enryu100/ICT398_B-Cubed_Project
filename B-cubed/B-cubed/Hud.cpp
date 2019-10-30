@@ -6,7 +6,7 @@ void Hud::Update()
 {
 	updatePlayerHealth();
 	updatePlayerAmmo();
-	updateNPCData();
+	//updateNPCData();
 	updateDisplay();
 }
 
@@ -20,8 +20,9 @@ void Hud::updatePlayerAmmo()
 	PlayerAmmo = Player_ptr->getAmmoStr();
 }
 
-void Hud::updateNPCData()
+void Hud::updateNPCData(std::string EmotionData)
 {
+	NPCData = EmotionData;
 	//Needed to be in this format to solve strange issues.
 	//NPCData = "NPC DATA: \n NPC NAME: + \n NPC EMOTION STATE: Suprise-Anticipation";
 }
@@ -41,13 +42,13 @@ void Hud::updateDisplay()
 
 
 	//============= NOTE MORE NPC DATA WILL BE NEEDED AS TIME CONTINUES ====================================================
-	std::string NPCData = "INTERACTION NPC DATA: ";
+	std::string NPCTitle = "INTERACTION NPC DATA: \n" + NPCData;
 	std::wstring wide_string3 = std::wstring(NPCData.begin(), NPCData.end());
 	const wchar_t* NPCFinal = wide_string3.c_str();
 
 	guienv_ptr->addStaticText(HSFinal, rect<s32>(10, 20, 260, 50), false);
 	guienv_ptr->addStaticText(ASFinal, rect<s32>(10, 40, 260, 70), false);
-	guienv_ptr->addStaticText(NPCFinal, rect<s32>(10, 380, 260, 500), false);
+	guienv_ptr->addStaticText(NPCFinal, rect<s32>(10, 380, 600, 1000), false);
 	//rect<s32>()
 	guienv_ptr->drawAll();
 }

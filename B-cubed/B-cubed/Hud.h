@@ -57,14 +57,6 @@ private:
 	void updatePlayerAmmo();
 
 	/**
-	* @function updateNPCData
-	* @brief Gets the NPC's data from the Emotion Engine
-	* @Author Ben Townroe
-	* @return There is no return for this function
-	*/
-	void updateNPCData();
-
-	/**
 	* @function updateDisplay
 	* @brief Updates the information displayed on the hud
 	* @Author Ben Townroe
@@ -117,5 +109,13 @@ public:
 	* @return There is no return for this function
 	*/
 	void Update();
+
+	/**
+	* @function updateNPCData
+	* @brief Gets the NPC's data from the Emotion Engine
+	* @Author Ben Townroe
+	* @return There is no return for this function
+	*/
+	void updateNPCData(std::string EmotionData);
 };
 

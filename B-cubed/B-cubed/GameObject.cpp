@@ -209,8 +209,8 @@ std::string GameObject::getEmotions() {
 	//add lines for each emotion axis
 	emote = "Joy-Sadness: " + std::to_string(emotions.getJoySad()) + "\n";
 	emote += "Trust-Disgust: " + std::to_string(emotions.getTrustDisgust()) + "\n";
-	emote = "Fear-Rage: " + std::to_string(emotions.getFearAnger()) + "\n";
-	emote = "Surprise-Anticipation: " + std::to_string(emotions.getSurpriseAnticipation());
+	emote += "Fear-Rage: " + std::to_string(emotions.getFearAnger()) + "\n";
+	emote += "Surprise-Anticipation: " + std::to_string(emotions.getSurpriseAnticipation());
 
 	return emote;
 }

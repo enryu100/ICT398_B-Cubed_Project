@@ -16,7 +16,7 @@ class Path
 {
 public:
 	Path();
-	//Path(std::list<Vector3> SetWayPoints);
+	Path(std::list<Vector3> SetWayPoints);
 	~Path() { } ;
  
 	Vector3 GetWaypoint();
@@ -29,6 +29,7 @@ private:
 	std::list<Vector3> waypoints;
 	std::list<Vector3>::iterator CurrentPoint;
 	Vector3 /*NPC1P1,*/ NPC1P2, NPC1P3, NPC1P4;
+	int iterator;
 
 };
 

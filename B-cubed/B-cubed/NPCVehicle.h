@@ -12,7 +12,7 @@ using namespace std;
 class NPCVehicle
 {
 public:
-	NPCVehicle(float x, float y, float z, std::list<Vector3> PresetPath);
+	NPCVehicle(float x, float y, float z, Path *thisPath);
 	~NPCVehicle();
 
 	void Update();
