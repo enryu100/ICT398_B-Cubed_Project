@@ -254,9 +254,12 @@ class GameObject {
 		* \brief resistance to rotation around the z axis
 		*/
 		float inertiaZ;
-
-
 		
+		/**
+		* \var dimensions
+		* \brief height, width and length of object
+		*/
+		vector3df dimensions;
 	public:
 		/********************************************//**
 		 * \fn GameObject
@@ -326,6 +329,7 @@ class GameObject {
 		irr::scene::ISceneNode* getNode() { return ObjectNode; }
 		irr::scene::IAnimatedMeshSceneNode* getAnimNode() { return (irr::scene::IAnimatedMeshSceneNode*)ObjectNode; }
 		vector3df getForce() { return ForceCoords; }
+		vector3df getDimensions() { return dimensions; }
 		float getInertiaX() { return inertiaX; }
 		float getInertiaY() { return inertiaY; }
 		float getInertiaZ() { return inertiaZ; }
@@ -373,6 +377,7 @@ class GameObject {
 		void setObjMesh(irr::scene::IAnimatedMesh* mesh);
 		void setNode(irr::scene::ISceneNode* node);
 		void setForce(vector3df force);
+		void setDimensions(vector3df dim);
 		void setInertiaX(float inX);
 		void setInertiaY(float inY);
 		void setInertiaZ(float inZ);
@@ -434,5 +439,11 @@ class GameObject {
 		 ***********************************************/
 		void updateRotation();
 
-
+		/********************************************//**
+		 * \fn calcInertia
+		 * \brief calculates inertia values
+		 * \details calculates the inertia values of a cube with defined dimensions. For physics
+		 * \author Brandon Jin Yang Lim
+		 ***********************************************/
+		void calcInertia();
 };

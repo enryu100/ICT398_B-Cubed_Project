@@ -109,6 +109,12 @@ void GameObject::setForce(vector3df force) {
 	ForceCoords = force;
 }
 
+void GameObject::setDimensions(vector3df dim) {
+	dimensions.X = dim.X;
+	dimensions.Y = dim.Y;
+	dimensions.Z = dim.Z;
+}
+
 void GameObject::setInertiaX(float inX) {
 	inertiaX = inX;
 }
@@ -304,4 +310,14 @@ void GameObject::updatePosition() {
 }
 void GameObject::updateRotation() {
 	ObjectNode->setRotation(getRotVector());
+}
+
+void GameObject::calcInertia() {
+
+	float inertia1 = mass / 12;
+	float inertia2 = (dimensions.X * dimensions.X) + (dimensions.Y * dimensions.Y);
+	float inertia = inertia1 * inertia2;
+	inertiaX = inertia;
+	inertiaY = inertia;
+	inertiaZ = inertia;
 }

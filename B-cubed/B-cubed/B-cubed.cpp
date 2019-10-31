@@ -325,6 +325,9 @@ int main()
 	ITriangleSelector* cubeSel = smgr->createTriangleSelectorFromBoundingBox(cubeNode);
 	cubeNode->setTriangleSelector(cubeSel);
 	cubeSel->drop();
+	physCube->setDimensions(vector3df(50, 50, 50));
+	physCube->calcInertia();
+	cout << "inertia of cube calculated." << endl;
 
 	
 	device->getCursorControl()->setVisible(false);
