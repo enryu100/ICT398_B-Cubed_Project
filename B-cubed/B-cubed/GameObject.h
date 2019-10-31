@@ -229,7 +229,7 @@ class GameObject {
 		* \var ObjectNode
 		* \brief pointer to the object's node
 		*/
-		irr::scene::IAnimatedMeshSceneNode* ObjectNode;
+		irr::scene::ISceneNode* ObjectNode;
 
 
 		
@@ -299,7 +299,9 @@ class GameObject {
 		bool isHungry();
 		int isEdible() { return edible; }
 		irr::scene::IAnimatedMesh* getObjMesh() { return ObjectMesh; }
-		irr::scene::IAnimatedMeshSceneNode* getNode() { return ObjectNode; }
+		irr::scene::ISceneNode* getNode() { return ObjectNode; }
+		irr::scene::IAnimatedMeshSceneNode* getAnimNode() { return (irr::scene::IAnimatedMeshSceneNode*)ObjectNode; }
+
 		/**
 		* @}
 		*/
@@ -342,7 +344,7 @@ class GameObject {
 		void makeEdible() { edible = 1; }
 		void makeInedible() { edible = 0; }
 		void setObjMesh(irr::scene::IAnimatedMesh* mesh);
-		void setNode(irr::scene::IAnimatedMeshSceneNode* node);
+		void setNode(irr::scene::ISceneNode* node);
 		/**
 		* @}
 		*/

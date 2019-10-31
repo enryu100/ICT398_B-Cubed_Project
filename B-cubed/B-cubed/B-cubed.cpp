@@ -107,6 +107,8 @@ int main()
 	gameObjects.push_back(new GameObject("food", "media/Bread.obj", "", 0, 0, -60, 40, 0, 0, 30, 30, 30, 0, 1, 0, false, false));
 	gameObjects[3]->makeEdible();
 
+	//cube for physics
+
 	//Room walls, floors and wall-mounted objects
 	gameObjects.push_back(new GameObject("media/whiteBoard.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/roof.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 0, false, false));
@@ -231,6 +233,7 @@ int main()
 	for (i = 0; i < gameObjects.size(); i++){
 		gameObjects[i]->setObjMesh(smgr->getMesh(gameObjects[i]->getMesh().c_str()));
 		
+		
 		ptm = gameObjects[i]->getPTM();
 		if(ptm != 0){
 			smgr->getMeshManipulator()->makePlanarTextureMapping(gameObjects[i]->getObjMesh()->getMesh(0), ptm);
@@ -269,9 +272,6 @@ int main()
 			}
 
 			gameObjects[i]->getNode()->setMaterialFlag(EMF_LIGHTING, false);
-			if(gameObjects[i]->getPTM() == 1){
-				gameObjects[i]->getNode()->setMD2Animation(scene::EMAT_STAND);
-			}
 			if(gameObjects[i]->getTex() != ""){
 				gameObjects[i]->getNode()->setMaterialTexture(0, driver->getTexture(gameObjects[i]->getTex().c_str()));
 			}
@@ -280,19 +280,19 @@ int main()
 			gameObjects[i]->getNode()->setRotation(gameObjects[i]->getRotVector());
 
 			if (gameObjects[i]->getAnim() == 1) {
-				gameObjects[i]->getNode()->setMD2Animation(scene::EMAT_STAND);
+				gameObjects[i]->getAnimNode()->setMD2Animation(scene::EMAT_STAND);
 			}
 
 			if (gameObjects[i]->getInteractible()) {
 				//object in NPC
 				gameObjects[i]->initEmotions();
-				scene::ITriangleSelector* tempselector = smgr->createTriangleSelector(gameObjects[i]->getNode());
+				scene::ITriangleSelector* tempselector = smgr->createTriangleSelector(gameObjects[i]->getAnimNode());
 				gameObjects[i]->getNode()->setTriangleSelector(tempselector);
 				tempselector->drop();
 			}
 
 			if(gameObjects[i]->getPickable() != 0){
-				scene::ITriangleSelector* selector = smgr->createTriangleSelector(gameObjects[i]->getObjMesh(), gameObjects[i]->getNode());
+				scene::ITriangleSelector* selector = smgr->createTriangleSelector(gameObjects[i]->getObjMesh(), gameObjects[i]->getAnimNode());
 				gameObjects[i]->getNode()->setTriangleSelector(selector);
 				if (selector)
 				{
@@ -311,6 +311,21 @@ int main()
 	gameObjects[0]->initEmotionVals(1, -1, 0, -1, 3, 0.5, 1, 2, 0.8, 2, 2, 2, 120, 50, 3, 10);
 	gameObjects[1]->initEmotionVals(-3, 2, 4, 2, -2, 1, 1, 2, 1, 1, 1, 1, 120, 50, 3, 7);
 	gameObjects[2]->initEmotionVals(1, -1, 0, -1, 1, 2, 0.5, 2, 1, 2, 2, 2, 120, 50, 3, 10);
+
+	//cube object for physics
+	GameObject* physCube = new GameObject("cube", "", "", 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 10, 2, true, false);
+	ISceneNode* cubeNode = smgr->addCubeSceneNode(50.0f, 0, IDFlag_IsPickable | IDFlag_IsHighlightable);
+	physCube->setNode(cubeNode);
+	cubeNode->setPosition(physCube->getPosVector());
+	cubeNode->setRotation(physCube->getRotVector());
+	cubeNode->setScale(physCube->getScaleVector());
+	objectByNode.insert(cubeNode, physCube);
+	objectsByName.insert(physCube->getName(), physCube);
+	cubeNode->setMaterialFlag(video::EMF_LIGHTING, false);
+	ITriangleSelector* cubeSel = smgr->createTriangleSelectorFromBoundingBox(cubeNode);
+	cubeNode->setTriangleSelector(cubeSel);
+	cubeSel->drop();
+
 	
 	device->getCursorControl()->setVisible(false);
 
@@ -328,7 +343,7 @@ int main()
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	GameObject* targetObject = 0;
 	int lastFPS = -1;
-	int tempflag = 0, tempflag2 = 0, hasbeenmoved = 0;
+	int tempflag = 0, tempflag2 = 0, hasbeenmoved = 0, clicked = 0;
 
 
 	//std::list<vector3df> NPC1Path = { vector3df(-100, 0, -100), vector3df(0, 0, 0) , vector3df(-50, 0, -50) , vector3df(-50, 0, 50) , vector3df(-100, 0, -100) };
@@ -474,10 +489,14 @@ int main()
 								tempflag = 1;
 							}
 
-							ThisHud.updateNPCData(targetObject->getEmotions());
+							if (targetObject->getInteractible()) {
+								ThisHud.updateNPCData(targetObject->getEmotions());
+							}
+							
 
 							bill->setPosition(intersection);
 
+							//other inputs commented out for stability while testing
 							//if 'W' key pressed, change joy
 							if (receiver.IsKeyDown(KEY_KEY_W)) {
 								std::cout << "W-key pressed!" << std::endl;
@@ -485,40 +504,50 @@ int main()
 								targetObject->changeEmotion(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 								tempflag2 = 0;
 							}
-							//if 'A' key pressed, change Trust
-							if (receiver.IsKeyDown(KEY_KEY_A)) {
-								std::cout << "A-key pressed!" << std::endl;
-								//increase joy by 5
-								targetObject->changeEmotion(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-								tempflag2 = 0;
-							}
-							//if 'S' key pressed, change Fear
-							if (receiver.IsKeyDown(KEY_KEY_S)) {
-								std::cout << "S-key pressed!" << std::endl;
-								//increase joy by 5
-								targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-								tempflag2 = 0;
-							}
-							//if 'D' key pressed, change surprise
-							if (receiver.IsKeyDown(KEY_KEY_D)) {
-								std::cout << "D-key pressed!" << std::endl;
-								//increase joy by 5
-								targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-								tempflag2 = 0;
-							}
-
-							//movement testing
-							if (receiver.IsKeyDown(KEY_KEY_X)) {
-								vector3df tempPos = targetObject->getPosVector();
-								tempPos.Z -= 200;
-								targetObject->setPosVec(tempPos);
-								highlightedSceneNode->setPosition(tempPos);
-							}
+							////if 'A' key pressed, change Trust
+							//if (receiver.IsKeyDown(KEY_KEY_A)) {
+							//	std::cout << "A-key pressed!" << std::endl;
+							//	//increase joy by 5
+							//	targetObject->changeEmotion(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+							//	tempflag2 = 0;
+							//}
+							////if 'S' key pressed, change Fear
+							//if (receiver.IsKeyDown(KEY_KEY_S)) {
+							//	std::cout << "S-key pressed!" << std::endl;
+							//	//increase joy by 5
+							//	targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+							//	tempflag2 = 0;
+							//}
+							////if 'D' key pressed, change surprise
+							//if (receiver.IsKeyDown(KEY_KEY_D)) {
+							//	std::cout << "D-key pressed!" << std::endl;
+							//	//increase joy by 5
+							//	targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+							//	tempflag2 = 0;
+							//}
 
 							//check for emotional response
 							if (targetObject->getEmotionResponse() == 1 && tempflag2 == 0) {
 								std::cout << "Emotion Response received!" << std::endl;
 								tempflag2 = 1;
+							}
+
+							//if object has physics, pass object to physics stuff on mouse leftclick
+							if (targetObject->getPhysics()); {
+								if (receiver.getMouseClick() && clicked == 0) {
+									//left click flag, to prevent repeat inputs
+									//must mouse away from object before second input can be read
+									clicked = 1;
+									vector3df objIntersection;
+									//calculate intersection coords relative to the object
+									std::cout << "clicked on physics cube!" << std::endl;
+									objIntersection.X = intersection.X + targetObject->getPosX();
+									objIntersection.Y = intersection.Y + targetObject->getPosY();
+									objIntersection.Z = intersection.Z + targetObject->getPosZ();
+									std::cout << "collision points are: \nX: " << objIntersection.X << "\nY: " << objIntersection.Y << "\nZ: " << objIntersection.Z << std::endl;
+
+									//physFunc(targetObject, objIntersection, force);
+								}
 							}
 						}
 					}
@@ -529,6 +558,7 @@ int main()
 				else {
 					ThisHud.updateNPCData("");
 					tempflag = 0;
+					clicked = 0;
 				}
 			}
 
