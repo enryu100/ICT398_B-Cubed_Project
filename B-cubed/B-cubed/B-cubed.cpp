@@ -23,6 +23,7 @@ using namespace gui;
 
 #include "Path.h"
 #include "NPCVehicle.h"
+#include "CollisionResolutionEngine.h"
 
 using namespace std;
 
@@ -96,11 +97,13 @@ int main()
 	//NPCs
 	gameObjects.push_back(new GameObject("NPC1", "media/Sydney.md2", "media/sydney.bmp", -100, 0, -60, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
 
-	gameObjects.push_back(new GameObject("NPC2", "media/Sydney.md2", "media/sydney.bmp", 100, 0, 100, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
+	gameObjects.push_back(new GameObject("NPC2", "media/Sydney.md2", "media/sydney.bmp", 250, 0, 180, 0, 180, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
 																						
 	gameObjects.push_back(new GameObject("NPC3", "media/Sydney.md2", "media/sydney.bmp", -170, 0, 80, 0, 0, 0, 3.0, 3.0, 3.0, 0, 1, 1, 2, false, true));
 
 	//food object for affordance stuff.
+
+	//gameObjects.push_back(new GameObject("food", "media/Bread.obj", "", 0, 0, 200, 40, 0, 0, 30, 30, 30, 0, 1, 0, false, false));
 	gameObjects.push_back(new GameObject("food", "media/Bread.obj", "", 0, 0, -60, 40, 0, 0, 30, 30, 30, 0, 1, 0, false, false));
 	gameObjects[3]->makeEdible();
 
@@ -395,12 +398,13 @@ int main()
 	npc3Path.SetPath(NPC3Path);
 
 
-
+	//Path for NPC1
 	NPCVehicle VNPC1(gameObjects[0]->getPosX(), gameObjects[0]->getPosY(), gameObjects[0]->getPosZ(), &npcTestPath);
-					//-100													//-60
-//	NPCVehicle VNPC1(gameObjects[0]->getPosX(), gameObjects[0]->getPosY(), gameObjects[0]->getPosZ(), &npcTestPath);
 
+	//Path for NPC3
 	NPCVehicle VNPC3(gameObjects[2]->getPosX(), gameObjects[2]->getPosY(), gameObjects[2]->getPosZ(), &npcTestPath3);
+
+	CollisionResolutionEngine ThisResolutionEngine;
 
 
 	while (device->run())
@@ -410,8 +414,6 @@ int main()
 			driver->beginScene(true, true, SColor(255, 100, 101, 140));
 
 			smgr->drawAll();
-			//guienv->drawAll();
-			
 
 			VNPC1.Update();
 			gameObjects[0]->incHunger(0.001);
@@ -433,6 +435,11 @@ int main()
 
 			//NPC1->setPosX(VNPC1.Position.X);
 			//NPC1->setPosZ(VNPC1.Position.Z);
+
+			//nodes[3]->setPosition(vector3df(0, 100, -100));
+
+			ThisResolutionEngine.ResolveCollisions(gameObjects[3], core::vector3df(0, -20, -60), 0.001f);
+			nodes[3]->setPosition(gameObjects[3]->getPosVector());
 
 			//deselect currently selected
 			if (highlightedSceneNode) {
