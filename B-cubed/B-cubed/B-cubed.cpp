@@ -438,8 +438,8 @@ int main()
 
 			//nodes[3]->setPosition(vector3df(0, 100, -100));
 
-			//ThisResolutionEngine.ResolveCollisions(gameObjects[3], core::vector3df(0, -20, -60), 0.001f);
-			//nodes[3]->setPosition(gameObjects[3]->getPosVector());
+			////ThisResolutionEngine.ResolveCollisions(gameObjects[3], core::vector3df(0, -20, -60), 0.001f);
+			////nodes[3]->setPosition(gameObjects[3]->getPosVector());
 
 			//deselect currently selected
 			if (highlightedSceneNode) {
@@ -548,7 +548,7 @@ int main()
 									
 									ThisResolutionEngine.ResolveCollisions(gameObjects[3], core::vector3df(objIntersection.X, objIntersection.Y, objIntersection.Z), 0.001f);
 									nodes[3]->setPosition(gameObjects[3]->getPosVector());
-									//physFunc(targetObject, objIntersection, force);
+									////physFunc(targetObject, objIntersection, force);
 								}
 							}
 						}
