@@ -230,6 +230,12 @@ class GameObject {
 		* \brief pointer to the object's node
 		*/
 		irr::scene::ISceneNode* ObjectNode;
+		
+		/**
+		* \var ForceCoords
+		* \brief Coordinates of Force along each axis
+		*/
+		vector3df ForceCoords;
 
 
 		
@@ -301,7 +307,7 @@ class GameObject {
 		irr::scene::IAnimatedMesh* getObjMesh() { return ObjectMesh; }
 		irr::scene::ISceneNode* getNode() { return ObjectNode; }
 		irr::scene::IAnimatedMeshSceneNode* getAnimNode() { return (irr::scene::IAnimatedMeshSceneNode*)ObjectNode; }
-
+		vector3df getForce() { return ForceCoords; }
 		/**
 		* @}
 		*/
@@ -345,6 +351,7 @@ class GameObject {
 		void makeInedible() { edible = 0; }
 		void setObjMesh(irr::scene::IAnimatedMesh* mesh);
 		void setNode(irr::scene::ISceneNode* node);
+		void setForce(vector3df force);
 		/**
 		* @}
 		*/
