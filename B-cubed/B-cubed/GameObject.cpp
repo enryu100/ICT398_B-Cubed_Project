@@ -261,7 +261,7 @@ void GameObject::setObjMesh(irr::scene::IAnimatedMesh* mesh) {
 	ObjectMesh = mesh;
 }
 
-void GameObject::setNode(irr::scene::IAnimatedMeshSceneNode* mesh) {
+void GameObject::setNode(irr::scene::ISceneNode* mesh) {
 	ObjectNode = mesh;
 }
 
