@@ -109,6 +109,18 @@ void GameObject::setForce(vector3df force) {
 	ForceCoords = force;
 }
 
+void GameObject::setInertiaX(float inX) {
+	inertiaX = inX;
+}
+
+void GameObject::setInertiaY(float inY) {
+	inertiaY = inY;
+}
+
+void GameObject::setInertiaZ(float inZ) {
+	inertiaZ = inZ;
+}
+
 GameObject::GameObject(std::string name, std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, int h, float m, int pick, bool phys, bool interact) {
 	setName(name);
 	setMesh(mPath);

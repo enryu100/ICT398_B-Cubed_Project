@@ -110,13 +110,13 @@ int main()
 	//cube for physics
 
 	//Room walls, floors and wall-mounted objects
-	gameObjects.push_back(new GameObject("media/whiteBoard.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
+	gameObjects.push_back(new GameObject("media/whiteBoard.obj", "", -5, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/roof.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 0, false, false));
 	gameObjects.push_back(new GameObject("media/windowLeft.obj", "", 5, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/windowRight.obj", "", 5, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/windowCenter.obj", "", 5, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
-	gameObjects.push_back(new GameObject("media/backWall.obj", "media/redBackWall.bmp", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.002, 1, 1, false, false));
-	gameObjects.push_back(new GameObject("media/farWall.obj", "media/farWall.bmp", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.003, 1, 1, false, false));
+	gameObjects.push_back(new GameObject("media/backWall.obj", "media/redBackWall.bmp", 5, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.002, 1, 1, false, false));
+	gameObjects.push_back(new GameObject("media/farWall.obj", "media/farWall.bmp", -5, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.003, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/leftWall.obj", "media/redWall.bmp", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.003, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/rightWall.obj", "media/redWall.bmp", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.003, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/floor.obj", "media/Navy-Blue-Carpet.bmp", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.003, 1, 1, false, false));
@@ -343,7 +343,7 @@ int main()
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	GameObject* targetObject = 0;
 	int lastFPS = -1;
-	int tempflag = 0, tempflag2 = 0, hasbeenmoved = 0;
+	int tempflag = 0, tempflag2 = 0, hasbeenmoved = 0, clicked = 0;
 
 
 	//std::list<vector3df> NPC1Path = { vector3df(-100, 0, -100), vector3df(0, 0, 0) , vector3df(-50, 0, -50) , vector3df(-50, 0, 50) , vector3df(-100, 0, -100) };
@@ -535,8 +535,8 @@ int main()
 							//if object has physics, pass object to physics stuff on mouse leftclick
 							if (targetObject->getPhysics()); {
 								if (receiver.getMouseClick()) {
-									//left click flag, to prevent repeat inputs
-									//must mouse away from object before second input can be read
+									clicked = 1;
+
 									vector3df objIntersection;
 									//calculate intersection coords relative to the object
 									std::cout << "clicked on physics cube!" << std::endl;
@@ -562,26 +562,26 @@ int main()
 			}
 			//else
 			//{
+			if (clicked != 0) {
 				ThisResolutionEngine.ResolveUpdate(physCube, 0.001f);
 				cubeNode->setPosition(physCube->getPosVector());
+			}
+				
 			//}
 
 			ThisHud.Update();
 
 
 
-			//positioning test
-			if (receiver.IsKeyDown(KEY_KEY_Z)) {
-				GameObject *target = (GameObject*)objectsByName.find("marker");
-
-				ISceneNode *tNode = nodes[29];
-				if ((!tNode) || tNode == nullptr) {
-					std::cout << "error: no node" << std::endl;
-				}
-				vector3df tmp = target->getPosVector();
-				tmp.Z = 100.0f;
-				target->setPosVec(tmp);
-				tNode->setPosition(tmp);
+			//cube reset
+			if (receiver.IsKeyDown(KEY_KEY_R)) {
+				/*clicked = 0;
+				
+				vector3df tmp = vector3df(0,0,0);
+				physCube->setPosVec(tmp);
+				cubeNode->setPosition(tmp);*/
+				physCube = new GameObject("cube", "", "", 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 10, 2, true, false);
+				cubeNode->setPosition(physCube->getPosVector());
 			}
 
 			//on esc press, exit

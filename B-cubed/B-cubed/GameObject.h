@@ -236,6 +236,24 @@ class GameObject {
 		* \brief Coordinates of Force along each axis
 		*/
 		vector3df ForceCoords;
+		
+		/**
+		* \var inertiaX
+		* \brief resistance to rotation around the x axis
+		*/
+		float inertiaX;
+		
+		/**
+		* \var inertiaY
+		* \brief resistance to rotation around the Y axis
+		*/
+		float inertiaY;
+		
+		/**
+		* \var inertiaZ
+		* \brief resistance to rotation around the z axis
+		*/
+		float inertiaZ;
 
 
 		
@@ -308,6 +326,9 @@ class GameObject {
 		irr::scene::ISceneNode* getNode() { return ObjectNode; }
 		irr::scene::IAnimatedMeshSceneNode* getAnimNode() { return (irr::scene::IAnimatedMeshSceneNode*)ObjectNode; }
 		vector3df getForce() { return ForceCoords; }
+		float getInertiaX() { return inertiaX; }
+		float getInertiaY() { return inertiaY; }
+		float getInertiaZ() { return inertiaZ; }
 		/**
 		* @}
 		*/
@@ -352,6 +373,9 @@ class GameObject {
 		void setObjMesh(irr::scene::IAnimatedMesh* mesh);
 		void setNode(irr::scene::ISceneNode* node);
 		void setForce(vector3df force);
+		void setInertiaX(float inX);
+		void setInertiaY(float inY);
+		void setInertiaZ(float inZ);
 		/**
 		* @}
 		*/
