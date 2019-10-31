@@ -343,7 +343,7 @@ int main()
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	GameObject* targetObject = 0;
 	int lastFPS = -1;
-	int tempflag = 0, tempflag2 = 0, hasbeenmoved = 0, clicked = 0;
+	int tempflag = 0, tempflag2 = 0, hasbeenmoved = 0;
 
 
 	//std::list<vector3df> NPC1Path = { vector3df(-100, 0, -100), vector3df(0, 0, 0) , vector3df(-50, 0, -50) , vector3df(-50, 0, 50) , vector3df(-100, 0, -100) };
@@ -438,9 +438,6 @@ int main()
 
 			//nodes[3]->setPosition(vector3df(0, 100, -100));
 
-			ThisResolutionEngine.ResolveCollisions(gameObjects[3], core::vector3df(0, -20, -60), 0.001f);
-			nodes[3]->setPosition(gameObjects[3]->getPosVector());
-
 			//deselect currently selected
 			if (highlightedSceneNode) {
 				highlightedSceneNode = 0;
@@ -534,10 +531,7 @@ int main()
 
 							//if object has physics, pass object to physics stuff on mouse leftclick
 							if (targetObject->getPhysics()); {
-								if (receiver.getMouseClick() && clicked == 0) {
-									//left click flag, to prevent repeat inputs
-									//must mouse away from object before second input can be read
-									clicked = 1;
+								if (receiver.getMouseClick()) {
 									vector3df objIntersection;
 									//calculate intersection coords relative to the object
 									std::cout << "clicked on physics cube!" << std::endl;
@@ -546,7 +540,8 @@ int main()
 									objIntersection.Z = intersection.Z - targetObject->getPosZ();
 									std::cout << "collision points are: \nX: " << objIntersection.X << "\nY: " << objIntersection.Y << "\nZ: " << objIntersection.Z << std::endl;
 
-									//physFunc(targetObject, objIntersection, force);
+									ThisResolutionEngine.ResolveCollisions(physCube, objIntersection, 0.001f);
+									cubeNode->setPosition(physCube->getPosVector());
 								}
 							}
 						}
@@ -558,7 +553,6 @@ int main()
 				else {
 					ThisHud.updateNPCData("");
 					tempflag = 0;
-					clicked = 0;
 				}
 			}
 

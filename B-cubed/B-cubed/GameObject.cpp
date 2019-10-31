@@ -105,6 +105,10 @@ void GameObject::setEmotionResponse(int er) {
 	emotionResponse = er;
 }
 
+void GameObject::setForce(vector3df force) {
+	ForceCoords = force;
+}
+
 GameObject::GameObject(std::string name, std::string mPath, std::string tPath, float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz, float p, int h, float m, int pick, bool phys, bool interact) {
 	setName(name);
 	setMesh(mPath);
