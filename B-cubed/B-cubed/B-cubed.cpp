@@ -540,8 +540,8 @@ int main()
 									objIntersection.Z = intersection.Z - targetObject->getPosZ();
 									std::cout << "collision points are: \nX: " << objIntersection.X << "\nY: " << objIntersection.Y << "\nZ: " << objIntersection.Z << std::endl;
 
-									ThisResolutionEngine.ResolveCollisions(physCube, objIntersection, 0.001f);
-									cubeNode->setPosition(physCube->getPosVector());
+									ThisResolutionEngine.ResolveCollisions(targetObject, objIntersection, 0.001f);
+									highlightedSceneNode->setPosition(targetObject->getPosVector());
 								}
 							}
 						}
