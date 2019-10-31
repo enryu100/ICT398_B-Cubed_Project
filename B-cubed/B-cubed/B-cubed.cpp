@@ -453,6 +453,8 @@ int main()
 
 			// Tracks the current intersection point with the level or a mesh
 			core::vector3df intersection;
+			// Tracks the current intersection point relative to the object it's intersecting with
+			vector3df objIntersection;
 			// Used to show with triangle has been hit
 			core::triangle3df hitTriangle;
 
@@ -532,7 +534,6 @@ int main()
 							//if object has physics, pass object to physics stuff on mouse leftclick
 							if (targetObject->getPhysics()); {
 								if (receiver.getMouseClick()) {
-									vector3df objIntersection;
 									//calculate intersection coords relative to the object
 									std::cout << "clicked on physics cube!" << std::endl;
 									objIntersection.X = intersection.X - targetObject->getPosX();
