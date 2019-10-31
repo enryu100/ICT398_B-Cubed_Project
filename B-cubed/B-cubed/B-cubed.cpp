@@ -534,9 +534,9 @@ int main()
 									vector3df objIntersection;
 									//calculate intersection coords relative to the object
 									std::cout << "clicked on physics cube!" << std::endl;
-									objIntersection.X = intersection.X + targetObject->getPosX();
-									objIntersection.Y = intersection.Y + targetObject->getPosY();
-									objIntersection.Z = intersection.Z + targetObject->getPosZ();
+									objIntersection.X = intersection.X - targetObject->getPosX();
+									objIntersection.Y = intersection.Y - targetObject->getPosY();
+									objIntersection.Z = intersection.Z - targetObject->getPosZ();
 									std::cout << "collision points are: \nX: " << objIntersection.X << "\nY: " << objIntersection.Y << "\nZ: " << objIntersection.Z << std::endl;
 
 									//physFunc(targetObject, objIntersection, force);
