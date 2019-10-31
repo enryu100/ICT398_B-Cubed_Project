@@ -112,9 +112,9 @@ int main()
 	//Room walls, floors and wall-mounted objects
 	gameObjects.push_back(new GameObject("media/whiteBoard.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/roof.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 0, false, false));
-	gameObjects.push_back(new GameObject("media/windowLeft.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
-	gameObjects.push_back(new GameObject("media/windowRight.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
-	gameObjects.push_back(new GameObject("media/windowCenter.obj", "", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
+	gameObjects.push_back(new GameObject("media/windowLeft.obj", "", 5, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
+	gameObjects.push_back(new GameObject("media/windowRight.obj", "", 5, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
+	gameObjects.push_back(new GameObject("media/windowCenter.obj", "", 5, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/backWall.obj", "media/redBackWall.bmp", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.002, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/farWall.obj", "media/farWall.bmp", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.003, 1, 1, false, false));
 	gameObjects.push_back(new GameObject("media/leftWall.obj", "media/redWall.bmp", 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.003, 1, 1, false, false));
@@ -343,7 +343,7 @@ int main()
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	GameObject* targetObject = 0;
 	int lastFPS = -1;
-	int tempflag = 0, tempflag2 = 0, hasbeenmoved = 0, clicked = 0;
+	int tempflag = 0, tempflag2 = 0, hasbeenmoved = 0;
 
 
 	//std::list<vector3df> NPC1Path = { vector3df(-100, 0, -100), vector3df(0, 0, 0) , vector3df(-50, 0, -50) , vector3df(-50, 0, 50) , vector3df(-100, 0, -100) };
@@ -534,10 +534,9 @@ int main()
 
 							//if object has physics, pass object to physics stuff on mouse leftclick
 							if (targetObject->getPhysics()); {
-								if (receiver.getMouseClick() && clicked == 0) {
+								if (receiver.getMouseClick()) {
 									//left click flag, to prevent repeat inputs
 									//must mouse away from object before second input can be read
-									clicked = 1;
 									vector3df objIntersection;
 									//calculate intersection coords relative to the object
 									std::cout << "clicked on physics cube!" << std::endl;
@@ -546,9 +545,8 @@ int main()
 									objIntersection.Z = intersection.Z - targetObject->getPosZ();
 									std::cout << "collision points are: \nX: " << objIntersection.X << "\nY: " << objIntersection.Y << "\nZ: " << objIntersection.Z << std::endl;
 									
-									ThisResolutionEngine.ResolveCollisions(gameObjects[3], core::vector3df(objIntersection.X, objIntersection.Y, objIntersection.Z), 0.001f);
-									nodes[3]->setPosition(gameObjects[3]->getPosVector());
-									////physFunc(targetObject, objIntersection, force);
+									ThisResolutionEngine.ResolveCollisions(physCube, objIntersection, 0.001f);
+									cubeNode->setPosition(physCube->getPosVector());
 								}
 							}
 						}
@@ -560,7 +558,6 @@ int main()
 				else {
 					ThisHud.updateNPCData("");
 					tempflag = 0;
-					clicked = 0;
 				}
 			}
 
