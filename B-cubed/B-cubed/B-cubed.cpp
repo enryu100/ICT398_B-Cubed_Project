@@ -560,8 +560,15 @@ int main()
 					tempflag = 0;
 				}
 			}
+			//else
+			//{
+				ThisResolutionEngine.ResolveUpdate(physCube, 0.001f);
+				cubeNode->setPosition(physCube->getPosVector());
+			//}
 
 			ThisHud.Update();
+
+
 
 			//positioning test
 			if (receiver.IsKeyDown(KEY_KEY_Z)) {

@@ -24,6 +24,7 @@ private:
 public:
 	CollisionResolutionEngine();
 	void ResolveCollisions(GameObject *ThisObject, irr::core::vector3df Collision_Point, float CollisionForce);
+	void ResolveUpdate(GameObject *ThisObject, float CollisionForce);
 
 	~CollisionResolutionEngine();
 };
