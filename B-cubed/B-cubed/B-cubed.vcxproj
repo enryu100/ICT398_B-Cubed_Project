@@ -105,7 +105,11 @@
       <AdditionalDependencies>lua5.3.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)dependencies\DLLs\*" "$(OutDir)"</Command>
+      <Command>copy "$(SolutionDir)dependencies\DLLs\*" "$(OutDir)"
+if not exist "$(OutDir)media" mkdir "$(OutDir)media"
+copy "$(ProjectDir)media\*" "$(OutDir)media"
+if not exist "$(OutDir)media\Office_chair_obj" mkdir "$(OutDir)media\Office_chair_obj"
+copy "$(ProjectDir)media\Office_chair_obj\*" "$(OutDir)media\Office_chair_obj"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,7 +129,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -145,7 +149,11 @@
       <AdditionalDependencies>lua5.3.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)dependencies\DLLs\*" "$(OutDir)"</Command>
+      <Command>copy "$(SolutionDir)dependencies\DLLs\*" "$(OutDir)"
+if not exist "$(OutDir)media" mkdir "$(OutDir)media"
+copy "$(ProjectDir)media\*" "$(OutDir)media"
+if not exist "$(OutDir)media\Office_chair_obj" mkdir "$(OutDir)media\Office_chair_obj"
+copy "$(ProjectDir)media\Office_chair_obj\*" "$(OutDir)media\Office_chair_obj"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
