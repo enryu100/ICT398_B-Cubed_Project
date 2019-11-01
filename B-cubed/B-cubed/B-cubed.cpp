@@ -500,34 +500,34 @@ int main()
 							bill->setPosition(intersection);
 
 							//other inputs commented out for stability while testing
-							//if 'W' key pressed, change joy
+							//if 'W' key pressed, compliment, adds joy and anticipation
 							if (receiver.IsKeyDown(KEY_KEY_W)) {
 								std::cout << "W-key pressed!" << std::endl;
 								//increase joy by 5
-								targetObject->changeEmotion(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+								targetObject->changeEmotion(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 								tempflag2 = 0;
 							}
-							////if 'A' key pressed, change Trust
-							//if (receiver.IsKeyDown(KEY_KEY_A)) {
-							//	std::cout << "A-key pressed!" << std::endl;
-							//	//increase joy by 5
-							//	targetObject->changeEmotion(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-							//	tempflag2 = 0;
-							//}
-							////if 'S' key pressed, change Fear
-							//if (receiver.IsKeyDown(KEY_KEY_S)) {
-							//	std::cout << "S-key pressed!" << std::endl;
-							//	//increase joy by 5
-							//	targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-							//	tempflag2 = 0;
-							//}
-							////if 'D' key pressed, change surprise
-							//if (receiver.IsKeyDown(KEY_KEY_D)) {
-							//	std::cout << "D-key pressed!" << std::endl;
-							//	//increase joy by 5
-							//	targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-							//	tempflag2 = 0;
-							//}
+							//if 'A' key pressed, sudden bad news, adds sadness and surprise
+							if (receiver.IsKeyDown(KEY_KEY_A)) {
+								std::cout << "A-key pressed!" << std::endl;
+								//increase joy by 5
+								targetObject->changeEmotion(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+								tempflag2 = 0;
+							}
+							//if 'S' key pressed, sinister friendliness, adds trust and fear
+							if (receiver.IsKeyDown(KEY_KEY_S)) {
+								std::cout << "S-key pressed!" << std::endl;
+								//increase joy by 5
+								targetObject->changeEmotion(0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+								tempflag2 = 0;
+							}
+							//if 'D' key pressed, obscene comment, adds anger and disgust
+							if (receiver.IsKeyDown(KEY_KEY_D)) {
+								std::cout << "D-key pressed!" << std::endl;
+								//increase joy by 5
+								targetObject->changeEmotion(0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+								tempflag2 = 0;
+							}
 
 							//check for emotional response
 							if (targetObject->getEmotionResponse() == 1 && tempflag2 == 0) {
