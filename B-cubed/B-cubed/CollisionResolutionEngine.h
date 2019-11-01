@@ -17,37 +17,37 @@ private:
 	irr::core::vector3df Gravity;
 	
 	/**
-	* @function CalculateLinearMomentum
+	* \fn CalculateLinearMomentum
 	* @brief Determines and calculates the linear momentum of the object
 	* @param *ThisObject is a pointer to a GameObject passed in from the program
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Returns a vector3df holding the Momentum on the x, y, z planes
 	*/
 	vector3df CalculateLinearMomentum(GameObject *ThisObject);
 
 	/**
-	* @function CalculateRotationalMomentum
+	* \fn CalculateRotationalMomentum
 	* @brief Determines and calculates the rotational momentum of the object - incomplete
 	* @param *ThisObject is a pointer to a GameObject passed in from the program
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Returns a vector3df holding the Momentum on the x, y, z planes
 	*/
 	vector3df CalculateRotationalMomentum(GameObject *ThisObject);
 
 	/**
-	* @function VectorNormalize
+	* \fn VectorNormalize
 	* @brief Normzalizes a given nector
 	* @param Given_Vector is a Vector3df holding a passed in vector to be determine its length
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Returns the Normalizes vector
 	*/
 	vector3df VectorNormalize(vector3df Given_Vector);
 
 	/**
-	* @function Length
+	* \fn Length
 	* @brief Determines and calculates the length of a vector
 	* @param vec is a Vector3df holding a passed in vector to be determine its length
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Returns a vector3df holding the Momentum on the x, y, z planes
 	*/
 	float Length(vector3df vec);
@@ -62,38 +62,38 @@ private:
 public:
 
 	/**
-	* @function CollisionResolutionEngine
+	* \fn CollisionResolutionEngine
 	* @brief Acts as the default constructor for the CollisionResolutionEngine
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	CollisionResolutionEngine();
 
 	/**
-	* @function Resolve Collisions
+	* \fn Resolve Collisions
 	* @brief Calculates the necessary values for collisions when one occurs
 	* @param *ThisObject is a pointer to a GameObject passed in from the program
 	* @param Collision_Point is the vector co-ordinate at which the collision takes place
 	* @param CollisionForce is the float value, holding the amount of force applied
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	void ResolveCollisions(GameObject *ThisObject, irr::core::vector3df Collision_Point, float CollisionForce);
 
 	/**
-	* @function ResolveUpdate
+	* \fn ResolveUpdate
 	* @brief Calculates the necessary values for collisions when does not occurs
 	* @param *ThisObject is a pointer to a GameObject passed in from the program
 	* @param CollisionForce is the float value, holding the amount of force applied
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	void ResolveUpdate(GameObject *ThisObject, float CollisionForce);
 
 	/**
-	* @function ~CollisionResolutionEngine
+	* \fn ~CollisionResolutionEngine
 	* @brief Acts as the default deconstructor for the CollisionResolutionEngine
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	~CollisionResolutionEngine();

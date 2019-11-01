@@ -41,25 +41,25 @@ private:
 	std::string NPCData;
 
 	/**
-	* @function updatePlayerHealth
+	* \fn updatePlayerHealth
 	* @brief Updates the players health accordingly
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return There is no return for this function
 	*/
 	void updatePlayerHealth();
 
 	/**
-	* @function updatePlayerAmmo
+	* \fn updatePlayerAmmo
 	* @brief Updates the players ammo accordingly
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return There is no return for this function
 	*/
 	void updatePlayerAmmo();
 
 	/**
-	* @function updateDisplay
+	* \fn updateDisplay
 	* @brief Updates the information displayed on the hud
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return There is no return for this function
 	*/
 	void updateDisplay();
@@ -81,11 +81,11 @@ private:
 public:
 
 	/**
-	* @function Hud
+	* \fn Hud
 	* @brief Acts as the default constructor for the hud class
 	* @param *Play_ptr is the pointer to the player object
 	* @param *env_ptr is the pointer to the gui interface object
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return There is no return for this function
 	*/
 	Hud(Player *Play_ptr, IGUIEnvironment *env_ptr)
@@ -95,25 +95,25 @@ public:
 	}
 
 	/**
-	* @function ~Hud
+	* \fn ~Hud
 	* @brief Acts as the deconstructor for the hud class
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return There is no return for this function
 	*/
 	~Hud() {};
 
 	/**
-	* @function Update
+	* \fn Update
 	* @brief On Update, updates all information needed to change the hud to display accurate information
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return There is no return for this function
 	*/
 	void Update();
 
 	/**
-	* @function updateNPCData
+	* \fn updateNPCData
 	* @brief Gets the NPC's data from the Emotion Engine
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return There is no return for this function
 	*/
 	void updateNPCData(std::string EmotionData);

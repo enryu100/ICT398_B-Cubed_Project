@@ -11,7 +11,7 @@ using namespace std;
 * @param x - holds a x co-odinate as a float value
 * @param y - holds a y co-odinate as a float value
 * @param z - holds a z co-odinate as a float value
-* @Author Ben Townroe
+* @author Ben Townroe
 * @return Does not return a value
 */
 struct Vector3
@@ -26,42 +26,42 @@ class Path
 public:
 
 	/**
-	* @function Path
+	* \fn Path
 	* @brief Acts as the default constructor for the Path
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	Path();
 
 	/**
-	* @function ~Path
+	* \fn ~Path
 	* @brief Acts as the default deconstructor for the Path
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	~Path() { } ;
 	
 	/**
-	* @function Path(SetWatPoints)
+	* \fn Path(SetWatPoints)
 	* @brief Acts as a constructor that automatically sets the path with a given list of Vector3's
 	* @param SetWayPoints: A list of Vector3's that act as the waypoints an NPC traverses between
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	Path(std::list<Vector3> SetWayPoints);
 
 	/**
-	* @function GetWayPoint
+	* \fn GetWayPoint
 	* @brief Returns the next Vector3 in the list 
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Returns the Vector3 stored within a list
 	*/
 	Vector3 GetWaypoint();
 
 	/**
-	* @function SetNextPoint
+	* \fn SetNextPoint
 	* @brief Increments the iterator by 1, allowing for the list to be cycled through
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	void SetNextPoint();
@@ -69,10 +69,10 @@ public:
 	//void SetPath(Vector3 P1/*std::list<Vector3> SetWayPoints*/);
 
 	/**
-	* @function SetPath
+	* \fn SetPath
 	* @brief Sets the Path of the NPC, allowing for custom paths to be made
 	* @param SetWayPoints: A list of Vector3's that act as the waypoints an NPC traverses between
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	void SetPath(std::list<Vector3> SetWayPoints);

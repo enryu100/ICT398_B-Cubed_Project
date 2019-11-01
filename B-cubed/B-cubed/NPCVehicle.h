@@ -13,62 +13,62 @@ class NPCVehicle
 {
 public:
 	/**
-	* @function NPCVehicle
+	* \fn NPCVehicle
 	* @brief Acts as the default constructor for the NPCVehicle
 	* @param float x - is the NPC's starting x co-ordinate
 	* @param float y - is the NPC's starting y co-ordinate
 	* @param float z - is the NPC's starting z co-ordinate
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	NPCVehicle(float x, float y, float z, Path *thisPath);
 
 	/**
-	* @function ~NPCVehicle
+	* \fn ~NPCVehicle
 	* @brief Acts as the default deconstructor for the NPCVehicle
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	~NPCVehicle();
 
 	/**
-	* @function Update
+	* \fn Update
 	* @brief Function conducts all necessary function calls to successfully update all necessary NPCVehicle data
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	void Update();
 
 	/**
-	* @function Seek
+	* \fn Seek
 	* @brief Determines where teh NPC has to move next to arrive at its target co-ordinates
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	void Seek();
 
 	/**
-	* @function VNormalise
+	* \fn VNormalise
 	* @brief Normalises the passed in vector
 	* @param vec is the passed in vector of co-ordinates to be normalised
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Does not return a value
 	*/
 	Vector3 VNormalise(Vector3 vec);
 
 	/**
-	* @function Length
+	* \fn Length
 	* @brief Determines and calculates the length of a vector
 	* @param vec is a Vector3df holding a passed in vector to be determine its length
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Returns a vector3df holding the Momentum on the x, y, z planes
 	*/
 	float Length(Vector3 vec);
 
 	/**
-	* @function Arrive
+	* \fn Arrive
 	* @brief Determines whether the NPC Vehicle has arrived at the desired co-ordinates
-	* @Author Ben Townroe
+	* @author Ben Townroe
 	* @return Returns whether the NPC has arrived at the co-ordinates or not
 	*/
 	bool Arrive();
