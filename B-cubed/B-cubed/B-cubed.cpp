@@ -514,11 +514,11 @@ int main()
 								targetObject->changeEmotion(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 								tempflag2 = 0;
 							}
-							//if 'S' key pressed, sinister friendliness, adds trust and fear
+							//if 'S' key pressed, friendliness, adds trust
 							if (receiver.IsKeyDown(KEY_KEY_S)) {
 								std::cout << "S-key pressed!" << std::endl;
 								//increase joy by 5
-								targetObject->changeEmotion(0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+								targetObject->changeEmotion(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 								tempflag2 = 0;
 							}
 							//if 'D' key pressed, obscene comment, adds anger and disgust
