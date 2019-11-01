@@ -464,5 +464,11 @@ public:
 	* @}
 	***********************************************/
 
+	/********************************************//**
+	* \fn testEmotionForResponse
+	* \brief tests emotion to see if response should be given
+	* \param[in] emotion emotion to be tested
+	* \author Brandon Jin Yang Lim
+	***********************************************/
 	int testEmotionForResponse(float emotion);
 };
